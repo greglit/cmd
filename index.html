@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>BUIDT</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<style>
+		@font-face {
+			font-family: custom-mono;
+			src: url(Zector.otf);
+		}
+		* {
+			font-family: monospace;
+			color: orange;
+			background-color: black;
+			outline: none;
+		}
+		body {
+		    height: 100%;
+		}
+
+		body {
+		    margin: 0; 
+		    padding: 0;
+		}
+		#textbox {
+			border: 0px;
+			display: inline-block;
+			margin: 0; 
+		    padding: 0;
+			font-size: 13px;
+		}
+		#display {
+			width: 100%;
+			white-space: pre;
+		}
+		#prompt-indicator {
+			float: left;
+			margin: 0; 
+		    padding: 0;
+		}
+	</style>
+</head>
+<body>
+<div id="display">
+Welcome to the Budapest University Information Database Terminal.
+last login: 73fe38fffx0
+
+                               `.....-....`                           
+                          --/::-.````.```.-:::--                      
+                      `:::..-`-`  o. / :+`:`..`.::-`                  
+                    -/:` -. .//   :/.:`:.o: +. o```:/-                
+                  :/. --`-//: /.`````````.`-: .o.-`-`./:              
+                ./.:` .::/..````          ````.` ./+.. ./.            
+               ::` `++/:-.``                  ``.:--`-/.`::           
+              /-`-- `:`.`            ``          ``./o-/  -/          
+             /: :/+::`.     .       :h`-.          .`/`-/-`-/         
+            -/ .::-/``     o+-//-`  +h`:+so/-       .`-+`..`/-        
+            +.`:``/ .      o+` `+s  +h`   `/s        .`/:--`-+        
+           .: .-::/``      o+`  :s  +h`    :s        ``.--:: /.       
+           :- :.:/`.       o+`  :s  +h`    :s         `-.` - -:       
+           :- /+:.`.       o+`  :o  +h`    :s         `..::.--:       
+           -- `  --.       o+`  -s/-oh`    :s         `-:-. .--       
+           ./ `/o/.``      :+//-```-sh`.`  :s        ``/::--`+`       
+            +-   `. `          -+o- +h`:o/`:s        `   `:`-+        
+            .+`      `           `/ssh`  :yos      `.      `+`        
+             :/`  :s` .`           .ss`   .so     `. .s.  `/-         
+              :/`     .```                      ```.     `/-          
+               ./.  `/+/.````                ````-+-    ./.           
+                `::.:-+.`+. .`````     ```````--.` -+``:/             
+                  ./:`  +. -../.-  ````-.-`+.-`::+  .::`              
+                    `:/-...  +. s` :o  /-+ .s.- -.-/:`                
+                       .-::-`-`.. :.+- ./   -.-::-.                   
+                           .-:::::::--:::::::-.                       
+                                   ````                         
+
+
+</div>
+<div id="prompt-indicator"></div>
+<input id="textbox" type="text" name="textbox" value="">
+<div id="bottom-space"></div>
+
+<script src="cmd.js"></script>
+</body>
+</html>
