@@ -30,7 +30,7 @@ namespace cmd{
             for (var command of this.commands){
                 out += command + '\n';
             }
-            return out.slice(0,-1) + '\n================================';
+            return out.slice(0,-1) + '\nuse arrows \'UP\' \'DOWN\' \'RIGHT\' for history and autocomplete\n================================';
         }
     }
     
