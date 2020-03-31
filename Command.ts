@@ -4,6 +4,7 @@ namespace cmd{
 
     export interface CommandDelegate {
         switchActiveCommandTo(command:Command):void
+        getFiles():{[name:string] : File}
     }
     
     export class Command {
@@ -32,6 +33,10 @@ namespace cmd{
             }
             return out.slice(0,-1) + '\nuse arrows \'UP\' \'DOWN\' \'RIGHT\' for history and autocomplete\n================================';
         }
+
+        getAutofillList(input:string):string[]{
+            return this.commands;
+        }
     }
     
     export class Default extends Command{
@@ -44,12 +49,23 @@ namespace cmd{
                 'print', 
                 'style',
                 'chat',
-                'love'
+                'love',
+                'list',
+                'open'
             ];
         }
-    
-        startUp():string{
-            return '';
+
+        getAutofillList(input:string):string[]{
+            switch (input){
+                case 'open':
+                    var list:string[] = [];
+                    for (var key in this.delegate.getFiles()){
+                        list.push('open '+ key)
+                    }
+                    return list;
+                default:
+                    return super.getAutofillList(input);
+            }
         }
     
         evalInput(text:string):string{
@@ -60,19 +76,32 @@ namespace cmd{
                 args = '';
             }
             switch (command) {
-                case 'help':
-                    return this.help(); break;
-                case 'print':
-                    return this.println(args); break;
-                case 'style':
-                    return this.style(args); break;
-                case 'love':
-                    return this.love(); break;
-                case 'chat':
-                    return this.chat(); break;
-                default:
-                    return '\nundefined command: ' + text + '\ntype \'help\' to get a list of all commands';
+                case 'help': return this.help();
+                case 'print': return this.println(args);
+                case 'style': return this.style(args);
+                case 'love': return this.love();
+                case 'chat': return this.chat();
+                case 'list': return this.list();
+                case 'open': return this.open(args);
+                default: return '\nundefined command: ' + text + '\ntype \'help\' to get a list of all commands';
             }
+        }
+        
+        list():string{
+            var out = '\n';
+            var files = this.delegate.getFiles()
+            for (var key in files){
+                out += key + ' (' + files[key].type + ')\n';
+            }
+            return out.slice(0,-1);
+        }
+
+        open(filename:string):string{
+            var file = this.delegate.getFiles()[filename];
+            if (file == null){
+                return '\nerror: file with name: ' + filename + ' not found'
+            }
+            return '\nopening file ' + filename + '...\n================================\n' + file.content + '\n================================'
         }
         
         println(args:string):string{
@@ -108,7 +137,7 @@ namespace cmd{
     
     export class Chat extends Command{
     
-        password:string = 'test';
+        password:string = 'sunflower';
         loggedIn:boolean = false;
     
         constructor(delegate: CommandDelegate, previous: Command) {

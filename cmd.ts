@@ -42,29 +42,46 @@ namespace cmd{
 				cmdC.doAutoFill()
 				break;
 			default:
-				cmdC.autoFillInput = '';
+				cmdC.autofillInput = '';
 		}
 	};
 
+	export interface File {
+		type: string;
+		content: string;
+	}
+	 
 	class CommandController implements CommandDelegate {
 
 		displayText:string = '';
 		firstEnter:boolean = true;
 		hist :string[] = [];
 		histIndex:number = 0;
-		autoFillInput:string = '';
+		autofillInput:string = '';
 		lastAutofill:string = '';
 		activeCmd:Command;
+
+		files: {[name:string] : File} = {
+			'log1' : {type:'txt', content:'|01| Tue May 22nd 2087\n|02|\n|03| today nothing happened'},
+			'log2' : {type:'txt', content:'|01| Mon June 13th 2087\n|02|\n|03| nothing happend today'},
+			'lucy' : {type:'txt', content:'|01|\n|02|\n|03|\n|04| PW: sunflower'},
+			'virus' : {type:'img', content:'<img src="media/art.png"></img>'}
+		};
 
 		constructor(){
 			this.activeCmd = new Default(this);
 		}
 
+		/*----CommandDelegate----*/
 		switchActiveCommandTo(command: Command): void {
 			$('#prompt-indicator').text(command.promptIndicatorText);
 			updateSize();
 			$('#textbox').focus();
 			this.activeCmd = command;
+		}
+
+		getFiles():{[name:string] : File}{
+			return this.files;
 		}
 
 		readInput():void{
@@ -102,27 +119,28 @@ namespace cmd{
 		}
 		
 		doAutoFill():void{
-			if (this.autoFillInput == ''){
-				this.autoFillInput = String($('#textbox').val());
+			var autofillList: string[] = this.activeCmd.getAutofillList(this.autofillInput);
+			if (this.autofillInput == ''){
+				this.autofillInput = String($('#textbox').val());
 			}
-			if (this.autoFillInput == '') {return;}
+			if (this.autofillInput == '') {return;}
 		
 			var startIndex : number = 0;
 			if (String($('#textbox').val()) == this.lastAutofill){
-				var autoIndex : number = this.activeCmd.commands.indexOf(this.lastAutofill);
-				startIndex = autoIndex == this.activeCmd.commands.length-1 ? 0 : autoIndex+1;
+				var autoIndex : number = autofillList.indexOf(this.lastAutofill);
+				startIndex = autoIndex == autofillList.length-1 ? 0 : autoIndex+1;
 			}
 			var searchDuration : number = 0;
-			for (var j=startIndex; j<this.activeCmd.commands.length; j++) {
-				if (this.activeCmd.commands[j].slice(0,this.autoFillInput.length) == this.autoFillInput){
-					$('#textbox').val(this.activeCmd.commands[j]);
+			for (var j=startIndex; j<autofillList.length; j++) {
+				if (autofillList[j].slice(0,this.autofillInput.length) == this.autofillInput){
+					$('#textbox').val(autofillList[j]);
 					$('#textbox').focus();
-					this.lastAutofill = this.activeCmd.commands[j];
+					this.lastAutofill = autofillList[j];
 					break;
 				}
-				if (searchDuration > this.activeCmd.commands.length){break;}
+				if (searchDuration > autofillList.length){break;}
 				searchDuration ++;
-				if (j == this.activeCmd.commands.length-1){
+				if (j == autofillList.length-1){
 					j = -1;
 				}
 			}

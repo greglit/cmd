@@ -35,6 +35,9 @@ var cmd;
             }
             return out.slice(0, -1) + '\nuse arrows \'UP\' \'DOWN\' \'RIGHT\' for history and autocomplete\n================================';
         };
+        Command.prototype.getAutofillList = function (input) {
+            return this.commands;
+        };
         return Command;
     }());
     cmd.Command = Command;
@@ -48,12 +51,23 @@ var cmd;
                 'print',
                 'style',
                 'chat',
-                'love'
+                'love',
+                'list',
+                'open'
             ];
             return _this;
         }
-        Default.prototype.startUp = function () {
-            return '';
+        Default.prototype.getAutofillList = function (input) {
+            switch (input) {
+                case 'open':
+                    var list = [];
+                    for (var key in this.delegate.getFiles()) {
+                        list.push('open ' + key);
+                    }
+                    return list;
+                default:
+                    return _super.prototype.getAutofillList.call(this, input);
+            }
         };
         Default.prototype.evalInput = function (text) {
             var command = text.substr(0, text.indexOf(' '));
@@ -63,24 +77,30 @@ var cmd;
                 args = '';
             }
             switch (command) {
-                case 'help':
-                    return this.help();
-                    break;
-                case 'print':
-                    return this.println(args);
-                    break;
-                case 'style':
-                    return this.style(args);
-                    break;
-                case 'love':
-                    return this.love();
-                    break;
-                case 'chat':
-                    return this.chat();
-                    break;
-                default:
-                    return '\nundefined command: ' + text + '\ntype \'help\' to get a list of all commands';
+                case 'help': return this.help();
+                case 'print': return this.println(args);
+                case 'style': return this.style(args);
+                case 'love': return this.love();
+                case 'chat': return this.chat();
+                case 'list': return this.list();
+                case 'open': return this.open(args);
+                default: return '\nundefined command: ' + text + '\ntype \'help\' to get a list of all commands';
             }
+        };
+        Default.prototype.list = function () {
+            var out = '\n';
+            var files = this.delegate.getFiles();
+            for (var key in files) {
+                out += key + ' (' + files[key].type + ')\n';
+            }
+            return out.slice(0, -1);
+        };
+        Default.prototype.open = function (filename) {
+            var file = this.delegate.getFiles()[filename];
+            if (file == null) {
+                return '\nerror: file with name: ' + filename + ' not found';
+            }
+            return '\nopening file ' + filename + '...\n================================\n' + file.content + '\n================================';
         };
         Default.prototype.println = function (args) {
             if (args == '') {
@@ -116,7 +136,7 @@ var cmd;
         __extends(Chat, _super);
         function Chat(delegate, previous) {
             var _this = _super.call(this, delegate) || this;
-            _this.password = 'test';
+            _this.password = 'sunflower';
             _this.loggedIn = false;
             _this.previousActive = previous;
             _this.commands = [

@@ -36,7 +36,7 @@ var cmd;
                 cmdC.doAutoFill();
                 break;
             default:
-                cmdC.autoFillInput = '';
+                cmdC.autofillInput = '';
         }
     };
     var CommandController = /** @class */ (function () {
@@ -45,15 +45,25 @@ var cmd;
             this.firstEnter = true;
             this.hist = [];
             this.histIndex = 0;
-            this.autoFillInput = '';
+            this.autofillInput = '';
             this.lastAutofill = '';
+            this.files = {
+                'log1': { type: 'txt', content: '|01| Tue May 22nd 2087\n|02|\n|03| today nothing happened' },
+                'log2': { type: 'txt', content: '|01| Mon June 13th 2087\n|02|\n|03| nothing happend today' },
+                'lucy': { type: 'txt', content: '|01|\n|02|\n|03|\n|04| PW: sunflower' },
+                'virus': { type: 'img', content: '<img src="media/art.png"></img>' }
+            };
             this.activeCmd = new cmd.Default(this);
         }
+        /*----CommandDelegate----*/
         CommandController.prototype.switchActiveCommandTo = function (command) {
             $('#prompt-indicator').text(command.promptIndicatorText);
             updateSize();
             $('#textbox').focus();
             this.activeCmd = command;
+        };
+        CommandController.prototype.getFiles = function () {
+            return this.files;
         };
         CommandController.prototype.readInput = function () {
             var input = String($('#textbox').val());
@@ -90,30 +100,31 @@ var cmd;
             }
         };
         CommandController.prototype.doAutoFill = function () {
-            if (this.autoFillInput == '') {
-                this.autoFillInput = String($('#textbox').val());
+            var autofillList = this.activeCmd.getAutofillList(this.autofillInput);
+            if (this.autofillInput == '') {
+                this.autofillInput = String($('#textbox').val());
             }
-            if (this.autoFillInput == '') {
+            if (this.autofillInput == '') {
                 return;
             }
             var startIndex = 0;
             if (String($('#textbox').val()) == this.lastAutofill) {
-                var autoIndex = this.activeCmd.commands.indexOf(this.lastAutofill);
-                startIndex = autoIndex == this.activeCmd.commands.length - 1 ? 0 : autoIndex + 1;
+                var autoIndex = autofillList.indexOf(this.lastAutofill);
+                startIndex = autoIndex == autofillList.length - 1 ? 0 : autoIndex + 1;
             }
             var searchDuration = 0;
-            for (var j = startIndex; j < this.activeCmd.commands.length; j++) {
-                if (this.activeCmd.commands[j].slice(0, this.autoFillInput.length) == this.autoFillInput) {
-                    $('#textbox').val(this.activeCmd.commands[j]);
+            for (var j = startIndex; j < autofillList.length; j++) {
+                if (autofillList[j].slice(0, this.autofillInput.length) == this.autofillInput) {
+                    $('#textbox').val(autofillList[j]);
                     $('#textbox').focus();
-                    this.lastAutofill = this.activeCmd.commands[j];
+                    this.lastAutofill = autofillList[j];
                     break;
                 }
-                if (searchDuration > this.activeCmd.commands.length) {
+                if (searchDuration > autofillList.length) {
                     break;
                 }
                 searchDuration++;
-                if (j == this.activeCmd.commands.length - 1) {
+                if (j == autofillList.length - 1) {
                     j = -1;
                 }
             }
