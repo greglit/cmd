@@ -192,6 +192,9 @@ var cmd;
             if (args == '') {
                 return '\nsyntax error: name of user to connect to required. -> \'startVideoChat peter\'';
             }
+            if (args == 'lucy') {
+                return '\nlucy: Hello? Anybody out there?\nlucy: plz answer! I need your help!\nTO BE CONTINUED...';
+            }
             return '\nuser ' + args + ' not availabe.';
         };
         return Chat;
