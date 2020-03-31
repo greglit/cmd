@@ -2,18 +2,18 @@
 
 namespace cmd{
 
-    export interface commandDelegate {
+    export interface CommandDelegate {
         switchActiveCommandTo(command:Command):void
     }
     
     export class Command {
-        delegate : commandDelegate ;
+        delegate : CommandDelegate ;
         previousActive?: Command;
     
         promptIndicatorText:string = '';
         commands:string[] = [];
     
-        constructor(delegate: commandDelegate) {
+        constructor(delegate: CommandDelegate) {
             this.delegate = delegate;
         }
     
@@ -30,13 +30,13 @@ namespace cmd{
             for (var command of this.commands){
                 out += command + '\n';
             }
-            return out.slice(0,-1) + '\n================================';
+            return out.slice(0,-1) + '\nuse arrows \'UP\' \'DOWN\' \'RIGHT\' for history and autocomplete\n================================';
         }
     }
     
     export class Default extends Command{
     
-        constructor(delegate: commandDelegate) {
+        constructor(delegate: CommandDelegate) {
             super(delegate);
             this.promptIndicatorText = 'unknown-user:~$';
             this.commands = [
@@ -111,7 +111,7 @@ namespace cmd{
         password:string = 'test';
         loggedIn:boolean = false;
     
-        constructor(delegate: commandDelegate, previous: Command) {
+        constructor(delegate: CommandDelegate, previous: Command) {
             super(delegate);
             this.previousActive = previous;
             this.commands = [

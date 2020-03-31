@@ -33,7 +33,7 @@ var cmd;
                 var command = _a[_i];
                 out += command + '\n';
             }
-            return out.slice(0, -1) + '\n================================';
+            return out.slice(0, -1) + '\nuse arrows \'UP\' \'DOWN\' \'RIGHT\' for history and autocomplete\n================================';
         };
         return Command;
     }());
