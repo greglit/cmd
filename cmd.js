@@ -154,7 +154,9 @@ var cmd;
             }
         };
         Chat.prototype.quit = function () {
-            this.delegate.switchActiveCommandTo(this.previousActive);
+            if (this.previousActive != null) {
+                this.delegate.switchActiveCommandTo(this.previousActive);
+            }
             return '';
         };
         Chat.prototype.send = function (text) {

@@ -146,7 +146,9 @@ namespace cmd{
         }
     
         quit():string{
-            this.delegate.switchActiveCommandTo(this.previousActive);
+            if (this.previousActive != null){
+                this.delegate.switchActiveCommandTo(this.previousActive);
+            }
             return '';
         }
     
