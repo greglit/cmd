@@ -3,8 +3,11 @@
 namespace cmd{
 
     export interface CommandDelegate {
-        switchActiveCommandTo(command:Command):void
-        getFiles():{[name:string] : File}
+        switchActiveCommandTo(command:Command):void;
+        getFiles():{[name:string] : File};
+        printText(out:string, delay:number):Promise<void>;
+		enableInput():void;
+		disableInput():void;
     }
     
     export class Command {
@@ -18,20 +21,21 @@ namespace cmd{
             this.delegate = delegate;
         }
     
-        evalInput(text:string):string{
-            return 'error: Active command is not able to evaluate input';
+        evalInput(text:string){
+            this.delegate.enableInput();
         }
     
         startUp():string{
             return '';
         }
 
-        help():string{
-            var out = '\n================================\navailabe commands: \n';
+        async help(){
+            var out = '================================\navailabe commands: \n';
             for (var command of this.commands){
                 out += command + '\n';
             }
-            return out.slice(0,-1) + '\nuse arrows \'UP\' \'DOWN\' \'RIGHT\' for history and autocomplete\n================================';
+            await this.delegate.printText(out.slice(0,-1) + '\nuse arrows \'UP\' \'DOWN\' \'RIGHT\' for history and autocomplete\n================================', 5);
+            this.delegate.enableInput();
         }
 
         getAutofillList(input:string):string[]{
@@ -68,7 +72,7 @@ namespace cmd{
             }
         }
     
-        evalInput(text:string):string{
+        evalInput(text:string){
             var command = text.substr(0,text.indexOf(' '));
             var args = text.substr(text.indexOf(' ')+1);
             if (command == ''){
@@ -76,7 +80,7 @@ namespace cmd{
                 args = '';
             }
             switch (command) {
-                case 'help': return this.help();
+                case 'help': this.help(); break;
                 case 'print': return this.println(args);
                 case 'style': return this.style(args);
                 case 'love': return this.love();
@@ -100,6 +104,9 @@ namespace cmd{
             var file = this.delegate.getFiles()[filename];
             if (file == null){
                 return '\nerror: file with name: ' + filename + ' not found'
+            }
+            if (file.type == 'img'){
+                
             }
             return '\nopening file ' + filename + '...\n================================\n' + file.content + '\n================================'
         }
@@ -154,7 +161,7 @@ namespace cmd{
             return '\nWelcome to the global Budapest Science Chat! Please enter the password to continue:';
         }
     
-        evalInput(text:string):string{
+        evalInput(text:string){
             var command = text.substr(0,text.indexOf(' '));
             var args = text.substr(text.indexOf(' ')+1);
             if (command == ''){
@@ -162,7 +169,7 @@ namespace cmd{
                 args = '';
             }
             switch (command){
-                case 'help': return this.help();
+                case 'help': this.help(); break;
                 case 'quit': return this.quit();
                 case 'startVideoChat': if (this.loggedIn){ return this.startVideoChat(args)} else {return this.logIn(text)}
                 default:

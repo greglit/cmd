@@ -11,7 +11,7 @@ namespace cmd{
 		cmdC.displayText = $('#display').text();
 		updateSize();
 		$('#textbox').val('').focus();
-		$('#bottom-space').height($(window).height()! - $('#prompt-indicator').height()! - $('#display').height()!)
+		$('#bottom-space').height($(window).height()! - $('#prompt-indicator').height()! - $('#display').height()!);
 	});
 
 	$(window).on('resize', function(){
@@ -29,17 +29,17 @@ namespace cmd{
 	document.onkeydown = function(e) {
 		switch (e.keyCode) {
 			case 13: //enter 
-				cmdC.readInput()
+				if (cmdC.inputEnabled) {cmdC.readInput();}
 				break;
 			case 38: //up
-				cmdC.histUp()
+				cmdC.histUp();
 				break;
 			case 40: //down
-				cmdC.histDown()
+				cmdC.histDown();
 				break;
 			case 9: //tab
 			case 39: //right
-				cmdC.doAutoFill()
+				cmdC.doAutoFill();
 				break;
 			default:
 				cmdC.autofillInput = '';
@@ -55,6 +55,7 @@ namespace cmd{
 
 		displayText:string = '';
 		firstEnter:boolean = true;
+		inputEnabled:boolean = false;
 		hist :string[] = [];
 		histIndex:number = 0;
 		autofillInput:string = '';
@@ -70,6 +71,8 @@ namespace cmd{
 
 		constructor(){
 			this.activeCmd = new Default(this);
+			
+			this.enableInput();
 		}
 
 		/*----CommandDelegate----*/
@@ -84,24 +87,45 @@ namespace cmd{
 			return this.files;
 		}
 
+		async printText(out:string, delay:number):Promise<void>{
+			this.displayText += '\n';
+			for (var char of out){
+				this.displayText += char;
+				$('#display').text(this.displayText);
+				await new Promise(r => setTimeout(r, delay));
+			}
+		}
+
+		enableInput():void{
+			$('#textbox').css('display','inline-block').val('').focus();
+			$('#prompt-indicator').css('display','inline-block');
+			this.inputEnabled = true;
+		}
+
+		disableInput():void{
+			this.inputEnabled = false;
+			$('#textbox').css('display','none');
+			$('#prompt-indicator').css('display','none');
+		}
+		/*----CommandDelegate----*/
+
 		readInput():void{
 			var input : string = String($('#textbox').val());
 			
 			if (!(this.displayText.slice(-2) == '\n' || this.firstEnter)){
-				this.displayText += '\n'
-			}
-			if (rmvSpace(input) == '') {
-				this.displayText += this.activeCmd.promptIndicatorText;
-			} else {
-				this.displayText += this.activeCmd.promptIndicatorText + rmvSpace(input) + this.activeCmd.evalInput(input);
-				this.hist.push(input); 
-				this.histIndex = this.hist.length;
+				this.displayText += '\n';
 			}
 			this.firstEnter = false;
-		
+			this.displayText += this.activeCmd.promptIndicatorText + rmvSpace(input);
 			$('#display').text(this.displayText);
-			$('#textbox').val('').focus();
-			updateSize()
+			$('#textbox').val('');
+			updateSize();
+			if (input != ''){
+				this.disableInput();
+				this.hist.push(input);
+				this.histIndex = this.hist.length;
+				this.activeCmd.evalInput(input);
+			}
 		}
 
 		histUp():void{
@@ -119,7 +143,7 @@ namespace cmd{
 		}
 		
 		doAutoFill():void{
-			var autofillList: string[] = this.activeCmd.getAutofillList(this.autofillInput);
+			var autofillList: string[] = this.activeCmd.getAutofillList(rmvSpace(this.autofillInput));
 			if (this.autofillInput == ''){
 				this.autofillInput = String($('#textbox').val());
 			}
