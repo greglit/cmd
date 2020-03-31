@@ -46,7 +46,7 @@ namespace cmd{
 		}
 	};
 
-	class CommandController implements commandDelegate {
+	class CommandController implements CommandDelegate {
 
 		displayText:string = '';
 		firstEnter:boolean = true;
