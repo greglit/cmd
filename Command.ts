@@ -1,41 +1,27 @@
 /// <reference path="cmd.ts" />
 
 namespace cmd{
-
-    export interface CommandDelegate {
-        switchActiveCommandTo(command:Command):void;
-        getFiles():{[name:string] : File};
-        printText(out:string, delay:number):Promise<void>;
-		enableInput():void;
-		disableInput():void;
-    }
     
     export class Command {
-        delegate : CommandDelegate ;
+        delegate : CommandController ;
         previousActive?: Command;
     
         promptIndicatorText:string = '';
         commands:string[] = [];
     
-        constructor(delegate: CommandDelegate) {
+        constructor(delegate: CommandController) {
             this.delegate = delegate;
         }
     
-        evalInput(text:string){
-            this.delegate.enableInput();
-        }
-    
-        startUp():string{
-            return '';
+        async evalInput(text:string):Promise<void>{
         }
 
-        async help(){
+        async help():Promise<void>{
             var out = '================================\navailabe commands: \n';
             for (var command of this.commands){
                 out += command + '\n';
             }
-            await this.delegate.printText(out.slice(0,-1) + '\nuse arrows \'UP\' \'DOWN\' \'RIGHT\' for history and autocomplete\n================================', 5);
-            this.delegate.enableInput();
+            await this.delegate.printText(out.slice(0,-1) + '\nuse arrows \'UP\' \'DOWN\' \'RIGHT\' for history and autocomplete\n================================');
         }
 
         getAutofillList(input:string):string[]{
@@ -45,7 +31,7 @@ namespace cmd{
     
     export class Default extends Command{
     
-        constructor(delegate: CommandDelegate) {
+        constructor(delegate: CommandController) {
             super(delegate);
             this.promptIndicatorText = 'unknown-user:~$';
             this.commands = [
@@ -72,7 +58,7 @@ namespace cmd{
             }
         }
     
-        evalInput(text:string){
+        async evalInput(text:string):Promise<void>{
             var command = text.substr(0,text.indexOf(' '));
             var args = text.substr(text.indexOf(' ')+1);
             if (command == ''){
@@ -80,65 +66,65 @@ namespace cmd{
                 args = '';
             }
             switch (command) {
-                case 'help': this.help(); break;
-                case 'print': return this.println(args);
-                case 'style': return this.style(args);
-                case 'love': return this.love();
-                case 'chat': return this.chat();
-                case 'list': return this.list();
-                case 'open': return this.open(args);
-                default: return '\nundefined command: ' + text + '\ntype \'help\' to get a list of all commands';
+                case 'help': await this.help(); break;
+                case 'print': await this.println(args); break;
+                case 'style': await this.style(args); break;
+                case 'love': await this.love(); break;
+                case 'chat': await this.chat(); break;
+                case 'list': await this.list(); break;
+                case 'open': await this.open(args); break;
+                default: await this.delegate.printText('undefined command: ' + text + '\ntype \'help\' to get a list of all commands');
             }
         }
         
-        list():string{
-            var out = '\n';
+        async list():Promise<void>{
+            var out = '';
             var files = this.delegate.getFiles()
             for (var key in files){
                 out += key + ' (' + files[key].type + ')\n';
             }
-            return out.slice(0,-1);
+            await this.delegate.printText(out.slice(0,-1));
         }
 
-        open(filename:string):string{
+        async open(filename:string):Promise<void>{
             var file = this.delegate.getFiles()[filename];
             if (file == null){
-                return '\nerror: file with name: ' + filename + ' not found'
+                await this.delegate.printText('error: file with name: ' + filename + ' not found');
             }
             if (file.type == 'img'){
                 
             }
-            return '\nopening file ' + filename + '...\n================================\n' + file.content + '\n================================'
+            await this.delegate.printText('opening file ' + filename + '...\n================================\n' + file.content + '\n================================');
         }
         
-        println(args:string):string{
+        async println(args:string):Promise<void>{
             if (args == ''){
-                return '\nsyntax error: print command requires a value. -> \'print Hello\''
+                await this.delegate.printText('syntax error: print command requires a value. -> \'print Hello\'');
             } else {
-                return '\n' + args
+                await this.delegate.printText(args);
             }
         }
         
-        style(args:string):string{
+        async style(args:string):Promise<void>{
             var key = '';
             var value = '';
             key = args.substr(0,args.indexOf(' '));
             value = args.substr(args.indexOf(' ')+1);
             if (key == '' || value == ''){
-                return '\nsyntax error: style command requires a key and a value. -> \'style color blue\'';
+                await this.delegate.printText('syntax error: style command requires a key and a value. -> \'style color blue\'');
             }
             $('*').css(key, value);
-            return '\ndid set ' + key + ' to ' + value;
+            await this.delegate.printText('did set ' + key + ' to ' + value);
         }
         
-        love():string{
-            return '\n,d88b.d88b,\n88888888888\n`Y8888888Y\'\n  `Y888Y\'\n    `Y\''
+        async love():Promise<void>{
+            await this.delegate.printText(',d88b.d88b,\n88888888888\n`Y8888888Y\'\n  `Y888Y\'\n    `Y\'');
         }
         
-        chat():string{
+        async chat():Promise<void>{
             var chat:Chat = new Chat(this.delegate, this)
             this.delegate.switchActiveCommandTo(chat);
-            return chat.startUp();
+            await chat.startUp();
         }
     }
     
@@ -147,21 +133,21 @@ namespace cmd{
         password:string = 'sunflower';
         loggedIn:boolean = false;
     
-        constructor(delegate: CommandDelegate, previous: Command) {
+        constructor(delegate: CommandController, previous: Command) {
             super(delegate);
             this.previousActive = previous;
             this.commands = [
                 'help',
                 'quit',
-                'startVideoChat'
+                'enterPrivateChat'
             ];
         }
         
-        startUp():string{
-            return '\nWelcome to the global Budapest Science Chat! Please enter the password to continue:';
+        async startUp():Promise<void>{
+            await this.delegate.printText('Welcome to the global Budapest Science Chat! Please enter the password to continue:');
         }
     
-        evalInput(text:string){
+        async evalInput(text:string){
             var command = text.substr(0,text.indexOf(' '));
             var args = text.substr(text.indexOf(' ')+1);
             if (command == ''){
@@ -170,42 +156,63 @@ namespace cmd{
             }
             switch (command){
                 case 'help': this.help(); break;
-                case 'quit': return this.quit();
-                case 'startVideoChat': if (this.loggedIn){ return this.startVideoChat(args)} else {return this.logIn(text)}
+                case 'quit': this.quit(); break;
+                case 'enterPrivateChat': 
+                    if (this.loggedIn){ this.enterPrivateChat(args)} else {this.logIn(text)}
+                    break;
                 default:
                     if (this.loggedIn){
-                        return this.send(text);
+                        this.send(text); break;
                     } else {
-                        return this.logIn(text);
+                        this.logIn(text); break;
                     }
             }
         }
     
-        quit():string{
+        quit(){
             if (this.previousActive != null){
                 this.delegate.switchActiveCommandTo(this.previousActive);
             }
-            return '';
         }
     
-        send(text:string):string{
-            return '\nunknown-user: '  + text;
+        async send(text:string):Promise<void>{
+            await this.delegate.printText('unknown-user: ' + text);
         }
     
-        logIn(text:string):string{
+        async logIn(text:string):Promise<void>{
             this.loggedIn = text == this.password;
-            return this.loggedIn ? '\nlogin successful! currently online users: 0 \ntype \'help\' for instructions or \'quit\' to exit the chat' 
-                                : '\nwrong password. type \'help\' for instructions or \'quit\' to exit the chat'
+            var out:string = this.loggedIn ? 'login successful! currently online users: 0 \ntype \'help\' for instructions or \'quit\' to exit the chat' 
+                                : 'wrong password. type \'help\' for instructions or \'quit\' to exit the chat';
+            await this.delegate.printText(out);
         }
 
-        startVideoChat(args:string):string{
-            if (args == ''){
-                return '\nsyntax error: name of user to connect to required. -> \'startVideoChat peter\''
+        async enterPrivateChat(username:string):Promise<void>{
+            switch (username){
+                case '':
+                    await this.delegate.printText('syntax error: name of user to connect to required. -> \'enterPrivateChat peter\'');
+                    break;
+                case 'lucy':
+                    await this.delegate.printText('try connecting to lucy');
+                    await this.delegate.printText('. . . ', 500, false);
+                    await this.delegate.printText('connection succesful!', this.delegate.defaultDelay, false);
+                    this.delegate.enableInput()
+                    await new Promise(r => setTimeout(r, 7000));
+                    await this.delegate.printText('lucy: Hello? Anybody out there?');
+                    await new Promise(r => setTimeout(r, 7000));
+                    await this.delegate.printText('lucy: plz answer! I need your help!');
+                    await new Promise(r => setTimeout(r, 7000));
+                    this.delegate.disableInput();
+                    this.delegate.displayText = '';
+                    await this.delegate.printText('');
+                    await new Promise(r => setTimeout(r, 2000));
+                    await this.delegate.printText('TO BE CONTINUED', 100);
+                    await this.delegate.printText('. . .', 1000, false);
+                    break;
+                default:
+                    await this.delegate.printText('try connecting to '+username);
+                    await this.delegate.printText('. . . ', 30, false);
+                    await this.delegate.printText('user ' + username + ' not availabe.', this.delegate.defaultDelay, false);
             }
-            if (args == 'lucy'){
-                return '\nlucy: Hello? Anybody out there?\nlucy: plz answer! I need your help!\nTO BE CONTINUED...'
-            }
-            return '\nuser ' + args + ' not availabe.'
         }
     }
 }

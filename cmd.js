@@ -86,6 +86,7 @@ var cmd;
             this.histIndex = 0;
             this.autofillInput = '';
             this.lastAutofill = '';
+            this.defaultDelay = 5;
             this.files = {
                 'log1': { type: 'txt', content: '|01| Tue May 22nd 2087\n|02|\n|03| today nothing happened' },
                 'log2': { type: 'txt', content: '|01| Mon June 13th 2087\n|02|\n|03| nothing happend today' },
@@ -105,13 +106,15 @@ var cmd;
         CommandController.prototype.getFiles = function () {
             return this.files;
         };
-        CommandController.prototype.printText = function (out, delay) {
+        CommandController.prototype.printText = function (out, delay, newLine) {
+            if (delay === void 0) { delay = this.defaultDelay; }
+            if (newLine === void 0) { newLine = true; }
             return __awaiter(this, void 0, void 0, function () {
                 var _i, out_1, char;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            this.displayText += '\n';
+                            this.displayText += newLine ? '\n' : '';
                             _i = 0, out_1 = out;
                             _a.label = 1;
                         case 1:
@@ -119,6 +122,7 @@ var cmd;
                             char = out_1[_i];
                             this.displayText += char;
                             $('#display').text(this.displayText);
+                            updateSize();
                             return [4 /*yield*/, new Promise(function (r) { return setTimeout(r, delay); })];
                         case 2:
                             _a.sent();
@@ -143,21 +147,33 @@ var cmd;
         };
         /*----CommandDelegate----*/
         CommandController.prototype.readInput = function () {
-            var input = String($('#textbox').val());
-            if (!(this.displayText.slice(-2) == '\n' || this.firstEnter)) {
-                this.displayText += '\n';
-            }
-            this.firstEnter = false;
-            this.displayText += this.activeCmd.promptIndicatorText + rmvSpace(input);
-            $('#display').text(this.displayText);
-            $('#textbox').val('');
-            updateSize();
-            if (input != '') {
-                this.disableInput();
-                this.hist.push(input);
-                this.histIndex = this.hist.length;
-                this.activeCmd.evalInput(input);
-            }
+            return __awaiter(this, void 0, void 0, function () {
+                var input;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            input = String($('#textbox').val());
+                            if (!(this.displayText.slice(-2) == '\n' || this.firstEnter)) {
+                                this.displayText += '\n';
+                            }
+                            this.firstEnter = false;
+                            this.displayText += this.activeCmd.promptIndicatorText + rmvSpace(input);
+                            $('#display').text(this.displayText);
+                            $('#textbox').val('');
+                            updateSize();
+                            if (!(input != '')) return [3 /*break*/, 2];
+                            this.disableInput();
+                            this.hist.push(input);
+                            this.histIndex = this.hist.length;
+                            return [4 /*yield*/, this.activeCmd.evalInput(input)];
+                        case 1:
+                            _a.sent();
+                            this.enableInput();
+                            _a.label = 2;
+                        case 2: return [2 /*return*/];
+                    }
+                });
+            });
         };
         CommandController.prototype.histUp = function () {
             if (this.histIndex >= 0 && this.hist.length > 0) {
@@ -207,6 +223,7 @@ var cmd;
         };
         return CommandController;
     }());
+    cmd.CommandController = CommandController;
     function rmvSpace(str) {
         while (str.slice(-1) == ' ') {
             str = str.slice(0, -1);

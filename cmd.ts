@@ -51,7 +51,7 @@ namespace cmd{
 		content: string;
 	}
 	 
-	class CommandController implements CommandDelegate {
+	export class CommandController {
 
 		displayText:string = '';
 		firstEnter:boolean = true;
@@ -61,6 +61,7 @@ namespace cmd{
 		autofillInput:string = '';
 		lastAutofill:string = '';
 		activeCmd:Command;
+		defaultDelay:number = 5;
 
 		files: {[name:string] : File} = {
 			'log1' : {type:'txt', content:'|01| Tue May 22nd 2087\n|02|\n|03| today nothing happened'},
@@ -71,7 +72,6 @@ namespace cmd{
 
 		constructor(){
 			this.activeCmd = new Default(this);
-			
 			this.enableInput();
 		}
 
@@ -87,11 +87,12 @@ namespace cmd{
 			return this.files;
 		}
 
-		async printText(out:string, delay:number):Promise<void>{
-			this.displayText += '\n';
+		async printText(out:string, delay:number=this.defaultDelay, newLine:boolean=true):Promise<void>{
+			this.displayText += newLine ? '\n' : '';
 			for (var char of out){
 				this.displayText += char;
 				$('#display').text(this.displayText);
+				updateSize();
 				await new Promise(r => setTimeout(r, delay));
 			}
 		}
@@ -109,7 +110,7 @@ namespace cmd{
 		}
 		/*----CommandDelegate----*/
 
-		readInput():void{
+		async readInput():Promise<void>{
 			var input : string = String($('#textbox').val());
 			
 			if (!(this.displayText.slice(-2) == '\n' || this.firstEnter)){
@@ -124,7 +125,8 @@ namespace cmd{
 				this.disableInput();
 				this.hist.push(input);
 				this.histIndex = this.hist.length;
-				this.activeCmd.evalInput(input);
+				await this.activeCmd.evalInput(input);
+				this.enableInput();
 			}
 		}
 

@@ -58,10 +58,11 @@ var cmd;
             this.delegate = delegate;
         }
         Command.prototype.evalInput = function (text) {
-            this.delegate.enableInput();
-        };
-        Command.prototype.startUp = function () {
-            return '';
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    return [2 /*return*/];
+                });
+            });
         };
         Command.prototype.help = function () {
             return __awaiter(this, void 0, void 0, function () {
@@ -74,10 +75,9 @@ var cmd;
                                 command = _a[_i];
                                 out += command + '\n';
                             }
-                            return [4 /*yield*/, this.delegate.printText(out.slice(0, -1) + '\nuse arrows \'UP\' \'DOWN\' \'RIGHT\' for history and autocomplete\n================================', 5)];
+                            return [4 /*yield*/, this.delegate.printText(out.slice(0, -1) + '\nuse arrows \'UP\' \'DOWN\' \'RIGHT\' for history and autocomplete\n================================')];
                         case 1:
                             _b.sent();
-                            this.delegate.enableInput();
                             return [2 /*return*/];
                     }
                 });
@@ -118,68 +118,178 @@ var cmd;
             }
         };
         Default.prototype.evalInput = function (text) {
-            var command = text.substr(0, text.indexOf(' '));
-            var args = text.substr(text.indexOf(' ') + 1);
-            if (command == '') {
-                command = args;
-                args = '';
-            }
-            switch (command) {
-                case 'help':
-                    this.help();
-                    break;
-                case 'print': return this.println(args);
-                case 'style': return this.style(args);
-                case 'love': return this.love();
-                case 'chat': return this.chat();
-                case 'list': return this.list();
-                case 'open': return this.open(args);
-                default: return '\nundefined command: ' + text + '\ntype \'help\' to get a list of all commands';
-            }
+            return __awaiter(this, void 0, void 0, function () {
+                var command, args, _a;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
+                        case 0:
+                            command = text.substr(0, text.indexOf(' '));
+                            args = text.substr(text.indexOf(' ') + 1);
+                            if (command == '') {
+                                command = args;
+                                args = '';
+                            }
+                            _a = command;
+                            switch (_a) {
+                                case 'help': return [3 /*break*/, 1];
+                                case 'print': return [3 /*break*/, 3];
+                                case 'style': return [3 /*break*/, 5];
+                                case 'love': return [3 /*break*/, 7];
+                                case 'chat': return [3 /*break*/, 9];
+                                case 'list': return [3 /*break*/, 11];
+                                case 'open': return [3 /*break*/, 13];
+                            }
+                            return [3 /*break*/, 15];
+                        case 1: return [4 /*yield*/, this.help()];
+                        case 2:
+                            _b.sent();
+                            return [3 /*break*/, 17];
+                        case 3: return [4 /*yield*/, this.println(args)];
+                        case 4:
+                            _b.sent();
+                            return [3 /*break*/, 17];
+                        case 5: return [4 /*yield*/, this.style(args)];
+                        case 6:
+                            _b.sent();
+                            return [3 /*break*/, 17];
+                        case 7: return [4 /*yield*/, this.love()];
+                        case 8:
+                            _b.sent();
+                            return [3 /*break*/, 17];
+                        case 9: return [4 /*yield*/, this.chat()];
+                        case 10:
+                            _b.sent();
+                            return [3 /*break*/, 17];
+                        case 11: return [4 /*yield*/, this.list()];
+                        case 12:
+                            _b.sent();
+                            return [3 /*break*/, 17];
+                        case 13: return [4 /*yield*/, this.open(args)];
+                        case 14:
+                            _b.sent();
+                            return [3 /*break*/, 17];
+                        case 15: return [4 /*yield*/, this.delegate.printText('undefined command: ' + text + '\ntype \'help\' to get a list of all commands')];
+                        case 16:
+                            _b.sent();
+                            _b.label = 17;
+                        case 17: return [2 /*return*/];
+                    }
+                });
+            });
         };
         Default.prototype.list = function () {
-            var out = '\n';
-            var files = this.delegate.getFiles();
-            for (var key in files) {
-                out += key + ' (' + files[key].type + ')\n';
-            }
-            return out.slice(0, -1);
+            return __awaiter(this, void 0, void 0, function () {
+                var out, files, key;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            out = '';
+                            files = this.delegate.getFiles();
+                            for (key in files) {
+                                out += key + ' (' + files[key].type + ')\n';
+                            }
+                            return [4 /*yield*/, this.delegate.printText(out.slice(0, -1))];
+                        case 1:
+                            _a.sent();
+                            return [2 /*return*/];
+                    }
+                });
+            });
         };
         Default.prototype.open = function (filename) {
-            var file = this.delegate.getFiles()[filename];
-            if (file == null) {
-                return '\nerror: file with name: ' + filename + ' not found';
-            }
-            if (file.type == 'img') {
-            }
-            return '\nopening file ' + filename + '...\n================================\n' + file.content + '\n================================';
+            return __awaiter(this, void 0, void 0, function () {
+                var file;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            file = this.delegate.getFiles()[filename];
+                            if (!(file == null)) return [3 /*break*/, 2];
+                            return [4 /*yield*/, this.delegate.printText('error: file with name: ' + filename + ' not found')];
+                        case 1:
+                            _a.sent();
+                            _a.label = 2;
+                        case 2:
+                            if (file.type == 'img') {
+                            }
+                            return [4 /*yield*/, this.delegate.printText('opening file ' + filename + '...\n================================\n' + file.content + '\n================================')];
+                        case 3:
+                            _a.sent();
+                            return [2 /*return*/];
+                    }
+                });
+            });
         };
         Default.prototype.println = function (args) {
-            if (args == '') {
-                return '\nsyntax error: print command requires a value. -> \'print Hello\'';
-            }
-            else {
-                return '\n' + args;
-            }
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            if (!(args == '')) return [3 /*break*/, 2];
+                            return [4 /*yield*/, this.delegate.printText('syntax error: print command requires a value. -> \'print Hello\'')];
+                        case 1:
+                            _a.sent();
+                            return [3 /*break*/, 4];
+                        case 2: return [4 /*yield*/, this.delegate.printText(args)];
+                        case 3:
+                            _a.sent();
+                            _a.label = 4;
+                        case 4: return [2 /*return*/];
+                    }
+                });
+            });
         };
         Default.prototype.style = function (args) {
-            var key = '';
-            var value = '';
-            key = args.substr(0, args.indexOf(' '));
-            value = args.substr(args.indexOf(' ') + 1);
-            if (key == '' || value == '') {
-                return '\nsyntax error: style command requires a key and a value. -> \'style color blue\'';
-            }
-            $('*').css(key, value);
-            return '\ndid set ' + key + ' to ' + value;
+            return __awaiter(this, void 0, void 0, function () {
+                var key, value;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            key = '';
+                            value = '';
+                            key = args.substr(0, args.indexOf(' '));
+                            value = args.substr(args.indexOf(' ') + 1);
+                            if (!(key == '' || value == '')) return [3 /*break*/, 2];
+                            return [4 /*yield*/, this.delegate.printText('syntax error: style command requires a key and a value. -> \'style color blue\'')];
+                        case 1:
+                            _a.sent();
+                            _a.label = 2;
+                        case 2:
+                            $('*').css(key, value);
+                            return [4 /*yield*/, this.delegate.printText('did set ' + key + ' to ' + value)];
+                        case 3:
+                            _a.sent();
+                            return [2 /*return*/];
+                    }
+                });
+            });
         };
         Default.prototype.love = function () {
-            return '\n,d88b.d88b,\n88888888888\n`Y8888888Y\'\n  `Y888Y\'\n    `Y\'';
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, this.delegate.printText(',d88b.d88b,\n88888888888\n`Y8888888Y\'\n  `Y888Y\'\n    `Y\'')];
+                        case 1:
+                            _a.sent();
+                            return [2 /*return*/];
+                    }
+                });
+            });
         };
         Default.prototype.chat = function () {
-            var chat = new Chat(this.delegate, this);
-            this.delegate.switchActiveCommandTo(chat);
-            return chat.startUp();
+            return __awaiter(this, void 0, void 0, function () {
+                var chat;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            chat = new Chat(this.delegate, this);
+                            this.delegate.switchActiveCommandTo(chat);
+                            return [4 /*yield*/, chat.startUp()];
+                        case 1:
+                            _a.sent();
+                            return [2 /*return*/];
+                    }
+                });
+            });
         };
         return Default;
     }(Command));
@@ -194,62 +304,165 @@ var cmd;
             _this.commands = [
                 'help',
                 'quit',
-                'startVideoChat'
+                'enterPrivateChat'
             ];
             return _this;
         }
         Chat.prototype.startUp = function () {
-            return '\nWelcome to the global Budapest Science Chat! Please enter the password to continue:';
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, this.delegate.printText('Welcome to the global Budapest Science Chat! Please enter the password to continue:')];
+                        case 1:
+                            _a.sent();
+                            return [2 /*return*/];
+                    }
+                });
+            });
         };
         Chat.prototype.evalInput = function (text) {
-            var command = text.substr(0, text.indexOf(' '));
-            var args = text.substr(text.indexOf(' ') + 1);
-            if (command == '') {
-                command = args;
-                args = '';
-            }
-            switch (command) {
-                case 'help':
-                    this.help();
-                    break;
-                case 'quit': return this.quit();
-                case 'startVideoChat': if (this.loggedIn) {
-                    return this.startVideoChat(args);
-                }
-                else {
-                    return this.logIn(text);
-                }
-                default:
-                    if (this.loggedIn) {
-                        return this.send(text);
+            return __awaiter(this, void 0, void 0, function () {
+                var command, args;
+                return __generator(this, function (_a) {
+                    command = text.substr(0, text.indexOf(' '));
+                    args = text.substr(text.indexOf(' ') + 1);
+                    if (command == '') {
+                        command = args;
+                        args = '';
                     }
-                    else {
-                        return this.logIn(text);
+                    switch (command) {
+                        case 'help':
+                            this.help();
+                            break;
+                        case 'quit':
+                            this.quit();
+                            break;
+                        case 'enterPrivateChat':
+                            if (this.loggedIn) {
+                                this.enterPrivateChat(args);
+                            }
+                            else {
+                                this.logIn(text);
+                            }
+                            break;
+                        default:
+                            if (this.loggedIn) {
+                                this.send(text);
+                                break;
+                            }
+                            else {
+                                this.logIn(text);
+                                break;
+                            }
                     }
-            }
+                    return [2 /*return*/];
+                });
+            });
         };
         Chat.prototype.quit = function () {
             if (this.previousActive != null) {
                 this.delegate.switchActiveCommandTo(this.previousActive);
             }
-            return '';
         };
         Chat.prototype.send = function (text) {
-            return '\nunknown-user: ' + text;
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, this.delegate.printText('unknown-user: ' + text)];
+                        case 1:
+                            _a.sent();
+                            return [2 /*return*/];
+                    }
+                });
+            });
         };
         Chat.prototype.logIn = function (text) {
-            this.loggedIn = text == this.password;
-            return this.loggedIn ? '\nlogin successful! currently online users: 0 \ntype \'help\' for instructions or \'quit\' to exit the chat'
-                : '\nwrong password. type \'help\' for instructions or \'quit\' to exit the chat';
+            return __awaiter(this, void 0, void 0, function () {
+                var out;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            this.loggedIn = text == this.password;
+                            out = this.loggedIn ? 'login successful! currently online users: 0 \ntype \'help\' for instructions or \'quit\' to exit the chat'
+                                : 'wrong password. type \'help\' for instructions or \'quit\' to exit the chat';
+                            return [4 /*yield*/, this.delegate.printText(out)];
+                        case 1:
+                            _a.sent();
+                            return [2 /*return*/];
+                    }
+                });
+            });
         };
-        Chat.prototype.startVideoChat = function (args) {
-            if (args == '') {
-                return '\nsyntax error: name of user to connect to required. -> \'startVideoChat peter\'';
-            }
-            if (args == 'lucy') {
-                return '\nlucy: Hello? Anybody out there?\nlucy: plz answer! I need your help!\nTO BE CONTINUED...';
-            }
-            return '\nuser ' + args + ' not availabe.';
+        Chat.prototype.enterPrivateChat = function (username) {
+            return __awaiter(this, void 0, void 0, function () {
+                var _a;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
+                        case 0:
+                            _a = username;
+                            switch (_a) {
+                                case '': return [3 /*break*/, 1];
+                                case 'lucy': return [3 /*break*/, 3];
+                            }
+                            return [3 /*break*/, 16];
+                        case 1: return [4 /*yield*/, this.delegate.printText('syntax error: name of user to connect to required. -> \'enterPrivateChat peter\'')];
+                        case 2:
+                            _b.sent();
+                            return [3 /*break*/, 20];
+                        case 3: return [4 /*yield*/, this.delegate.printText('try connecting to lucy')];
+                        case 4:
+                            _b.sent();
+                            return [4 /*yield*/, this.delegate.printText('. . . ', 500, false)];
+                        case 5:
+                            _b.sent();
+                            return [4 /*yield*/, this.delegate.printText('connection succesful!', this.delegate.defaultDelay, false)];
+                        case 6:
+                            _b.sent();
+                            this.delegate.enableInput();
+                            return [4 /*yield*/, new Promise(function (r) { return setTimeout(r, 7000); })];
+                        case 7:
+                            _b.sent();
+                            return [4 /*yield*/, this.delegate.printText('lucy: Hello? Anybody out there?')];
+                        case 8:
+                            _b.sent();
+                            return [4 /*yield*/, new Promise(function (r) { return setTimeout(r, 7000); })];
+                        case 9:
+                            _b.sent();
+                            return [4 /*yield*/, this.delegate.printText('lucy: plz answer! I need your help!')];
+                        case 10:
+                            _b.sent();
+                            return [4 /*yield*/, new Promise(function (r) { return setTimeout(r, 7000); })];
+                        case 11:
+                            _b.sent();
+                            this.delegate.disableInput();
+                            this.delegate.displayText = '';
+                            return [4 /*yield*/, this.delegate.printText('')];
+                        case 12:
+                            _b.sent();
+                            return [4 /*yield*/, new Promise(function (r) { return setTimeout(r, 2000); })];
+                        case 13:
+                            _b.sent();
+                            return [4 /*yield*/, this.delegate.printText('TO BE CONTINUED', 100)];
+                        case 14:
+                            _b.sent();
+                            return [4 /*yield*/, this.delegate.printText('. . .', 1000, false)];
+                        case 15:
+                            _b.sent();
+                            return [3 /*break*/, 20];
+                        case 16: return [4 /*yield*/, this.delegate.printText('try connecting to ' + username)];
+                        case 17:
+                            _b.sent();
+                            return [4 /*yield*/, this.delegate.printText('. . . ', 30, false)];
+                        case 18:
+                            _b.sent();
+                            return [4 /*yield*/, this.delegate.printText('user ' + username + ' not availabe.', this.delegate.defaultDelay, false)];
+                        case 19:
+                            _b.sent();
+                            _b.label = 20;
+                        case 20: return [2 /*return*/];
+                    }
+                });
+            });
         };
         return Chat;
     }(Command));
