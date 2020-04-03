@@ -1,7 +1,8 @@
 /// <reference path="Command.ts" />
+/// <reference path="Glitch.ts" />
+/// <reference path="Utility.ts" />
 
 namespace cmd{
-	
 	var cmdC : CommandController 
 
 	$(document).ready(function(){
@@ -11,7 +12,7 @@ namespace cmd{
 		cmdC.displayText = $('#display').text();
 		updateSize();
 		$('#textbox').val('').focus();
-		$('#bottom-space').height($(window).height()! - $('#prompt-indicator').height()! - $('#display').height()!);
+		$('#bottom-space').height($(window).height()! - $('#prompt-indicator').height()! - $('#display').height()!);	
 	});
 
 	$(window).on('resize', function(){
@@ -63,6 +64,8 @@ namespace cmd{
 		activeCmd:Command;
 		defaultDelay:number = 5;
 
+		glitch:Glitch;
+
 		files: {[name:string] : File} = {
 			'log1' : {type:'txt', content:'|01| Tue May 22nd 2087\n|02|\n|03| today nothing happened'},
 			'log2' : {type:'txt', content:'|01| Mon June 13th 2087\n|02|\n|03| nothing happend today'},
@@ -73,6 +76,7 @@ namespace cmd{
 		constructor(){
 			this.activeCmd = new Default(this);
 			this.enableInput();
+			this.glitch = new Glitch();
 		}
 
 		/*----CommandDelegate----*/
@@ -87,13 +91,13 @@ namespace cmd{
 			return this.files;
 		}
 
-		async printText(out:string, delay:number=this.defaultDelay, newLine:boolean=true):Promise<void>{
+		async printText(out:string, delayTenthseconds:number=this.defaultDelay, newLine:boolean=true):Promise<void>{
 			this.displayText += newLine ? '\n' : '';
 			for (var char of out){
 				this.displayText += char;
 				$('#display').text(this.displayText);
 				updateSize();
-				await new Promise(r => setTimeout(r, delay));
+				await wait(delayTenthseconds);
 			}
 		}
 
@@ -170,14 +174,6 @@ namespace cmd{
 					j = -1;
 				}
 			}
-		}
-		
-	}
-
-	function rmvSpace(str:string):string{
-		while (str.slice(-1) == ' '){
-			str = str.slice(0, -1); 
-		}
-		return str;
+		}	
 	}
 }

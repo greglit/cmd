@@ -138,41 +138,46 @@ var cmd;
                                 case 'chat': return [3 /*break*/, 9];
                                 case 'list': return [3 /*break*/, 11];
                                 case 'open': return [3 /*break*/, 13];
+                                case 'meltdown': return [3 /*break*/, 15];
                             }
-                            return [3 /*break*/, 15];
+                            return [3 /*break*/, 17];
                         case 1: return [4 /*yield*/, this.help()];
                         case 2:
                             _b.sent();
-                            return [3 /*break*/, 17];
+                            return [3 /*break*/, 19];
                         case 3: return [4 /*yield*/, this.println(args)];
                         case 4:
                             _b.sent();
-                            return [3 /*break*/, 17];
+                            return [3 /*break*/, 19];
                         case 5: return [4 /*yield*/, this.style(args)];
                         case 6:
                             _b.sent();
-                            return [3 /*break*/, 17];
+                            return [3 /*break*/, 19];
                         case 7: return [4 /*yield*/, this.love()];
                         case 8:
                             _b.sent();
-                            return [3 /*break*/, 17];
+                            return [3 /*break*/, 19];
                         case 9: return [4 /*yield*/, this.chat()];
                         case 10:
                             _b.sent();
-                            return [3 /*break*/, 17];
+                            return [3 /*break*/, 19];
                         case 11: return [4 /*yield*/, this.list()];
                         case 12:
                             _b.sent();
-                            return [3 /*break*/, 17];
+                            return [3 /*break*/, 19];
                         case 13: return [4 /*yield*/, this.open(args)];
                         case 14:
                             _b.sent();
-                            return [3 /*break*/, 17];
-                        case 15: return [4 /*yield*/, this.delegate.printText('undefined command: ' + text + '\ntype \'help\' to get a list of all commands')];
+                            return [3 /*break*/, 19];
+                        case 15: return [4 /*yield*/, this.meltdown(args)];
                         case 16:
                             _b.sent();
-                            _b.label = 17;
-                        case 17: return [2 /*return*/];
+                            return [3 /*break*/, 19];
+                        case 17: return [4 /*yield*/, this.delegate.printText('undefined command: ' + text + '\ntype \'help\' to get a list of all commands')];
+                        case 18:
+                            _b.sent();
+                            _b.label = 19;
+                        case 19: return [2 /*return*/];
                     }
                 });
             });
@@ -271,6 +276,28 @@ var cmd;
                         case 1:
                             _a.sent();
                             return [2 /*return*/];
+                    }
+                });
+            });
+        };
+        Default.prototype.meltdown = function (args) {
+            return __awaiter(this, void 0, void 0, function () {
+                var duration;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            if (!!cmd.isNumber(args)) return [3 /*break*/, 2];
+                            return [4 /*yield*/, this.delegate.printText('syntax error: meltdown command requires a time in seconds value. -> \'meltdown 10\'')];
+                        case 1:
+                            _a.sent();
+                            return [3 /*break*/, 4];
+                        case 2:
+                            duration = Number(args);
+                            return [4 /*yield*/, this.delegate.glitch.totalMeltdown(duration)];
+                        case 3:
+                            _a.sent();
+                            _a.label = 4;
+                        case 4: return [2 /*return*/];
                     }
                 });
             });
@@ -412,47 +439,48 @@ var cmd;
                         case 3: return [4 /*yield*/, this.delegate.printText('try connecting to lucy')];
                         case 4:
                             _b.sent();
-                            return [4 /*yield*/, this.delegate.printText('. . . ', 500, false)];
+                            return [4 /*yield*/, this.delegate.printText(' . . . ', 500, false)];
                         case 5:
                             _b.sent();
                             return [4 /*yield*/, this.delegate.printText('connection succesful!', this.delegate.defaultDelay, false)];
                         case 6:
                             _b.sent();
                             this.delegate.enableInput();
-                            return [4 /*yield*/, new Promise(function (r) { return setTimeout(r, 7000); })];
+                            return [4 /*yield*/, cmd.wait(7000)];
                         case 7:
                             _b.sent();
                             return [4 /*yield*/, this.delegate.printText('lucy: Hello? Anybody out there?')];
                         case 8:
                             _b.sent();
-                            return [4 /*yield*/, new Promise(function (r) { return setTimeout(r, 7000); })];
+                            return [4 /*yield*/, cmd.wait(7000)];
                         case 9:
                             _b.sent();
                             return [4 /*yield*/, this.delegate.printText('lucy: plz answer! I need your help!')];
                         case 10:
                             _b.sent();
-                            return [4 /*yield*/, new Promise(function (r) { return setTimeout(r, 7000); })];
+                            return [4 /*yield*/, cmd.wait(3500)];
                         case 11:
+                            _b.sent();
+                            return [4 /*yield*/, this.delegate.glitch.totalMeltdown(3)];
+                        case 12:
                             _b.sent();
                             this.delegate.disableInput();
                             this.delegate.displayText = '';
-                            return [4 /*yield*/, this.delegate.printText('')];
-                        case 12:
-                            _b.sent();
-                            return [4 /*yield*/, new Promise(function (r) { return setTimeout(r, 2000); })];
+                            $('#display').text('');
+                            return [4 /*yield*/, cmd.wait(2000)];
                         case 13:
                             _b.sent();
                             return [4 /*yield*/, this.delegate.printText('TO BE CONTINUED', 100)];
                         case 14:
                             _b.sent();
-                            return [4 /*yield*/, this.delegate.printText('. . .', 1000, false)];
+                            return [4 /*yield*/, this.delegate.printText(' . . .', 1000, false)];
                         case 15:
                             _b.sent();
                             return [3 /*break*/, 20];
                         case 16: return [4 /*yield*/, this.delegate.printText('try connecting to ' + username)];
                         case 17:
                             _b.sent();
-                            return [4 /*yield*/, this.delegate.printText('. . . ', 30, false)];
+                            return [4 /*yield*/, this.delegate.printText(' . . . ', 30, false)];
                         case 18:
                             _b.sent();
                             return [4 /*yield*/, this.delegate.printText('user ' + username + ' not availabe.', this.delegate.defaultDelay, false)];

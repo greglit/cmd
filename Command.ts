@@ -73,6 +73,7 @@ namespace cmd{
                 case 'chat': await this.chat(); break;
                 case 'list': await this.list(); break;
                 case 'open': await this.open(args); break;
+                case 'meltdown': await this.meltdown(args); break;
                 default: await this.delegate.printText('undefined command: ' + text + '\ntype \'help\' to get a list of all commands');
             }
         }
@@ -119,6 +120,16 @@ namespace cmd{
         
         async love():Promise<void>{
             await this.delegate.printText(',d88b.d88b,\n88888888888\n`Y8888888Y\'\n  `Y888Y\'\n    `Y\'');
+        }
+
+        async meltdown(args:string):Promise<void>{
+            if (!isNumber(args)){
+                await this.delegate.printText('syntax error: meltdown command requires a time in seconds value. -> \'meltdown 10\'');
+            } else {
+                var duration:number = Number(args);
+                await this.delegate.glitch.totalMeltdown(duration);
+            }
+            
         }
         
         async chat():Promise<void>{
@@ -193,24 +204,25 @@ namespace cmd{
                     break;
                 case 'lucy':
                     await this.delegate.printText('try connecting to lucy');
-                    await this.delegate.printText('. . . ', 500, false);
+                    await this.delegate.printText(' . . . ', 500, false);
                     await this.delegate.printText('connection succesful!', this.delegate.defaultDelay, false);
                     this.delegate.enableInput()
-                    await new Promise(r => setTimeout(r, 7000));
+                    await wait(7000);
                     await this.delegate.printText('lucy: Hello? Anybody out there?');
-                    await new Promise(r => setTimeout(r, 7000));
+                    await wait(7000);
                     await this.delegate.printText('lucy: plz answer! I need your help!');
-                    await new Promise(r => setTimeout(r, 7000));
+                    await wait(3500);
+                    await this.delegate.glitch.totalMeltdown(3);
                     this.delegate.disableInput();
                     this.delegate.displayText = '';
-                    await this.delegate.printText('');
-                    await new Promise(r => setTimeout(r, 2000));
+                    $('#display').text('');
+                    await wait(2000);
                     await this.delegate.printText('TO BE CONTINUED', 100);
-                    await this.delegate.printText('. . .', 1000, false);
+                    await this.delegate.printText(' . . .', 1000, false);
                     break;
                 default:
                     await this.delegate.printText('try connecting to '+username);
-                    await this.delegate.printText('. . . ', 30, false);
+                    await this.delegate.printText(' . . . ', 30, false);
                     await this.delegate.printText('user ' + username + ' not availabe.', this.delegate.defaultDelay, false);
             }
         }

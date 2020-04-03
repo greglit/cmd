@@ -1,5 +1,7 @@
 "use strict";
 /// <reference path="Command.ts" />
+/// <reference path="Glitch.ts" />
+/// <reference path="Utility.ts" />
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -95,6 +97,7 @@ var cmd;
             };
             this.activeCmd = new cmd.Default(this);
             this.enableInput();
+            this.glitch = new cmd.Glitch();
         }
         /*----CommandDelegate----*/
         CommandController.prototype.switchActiveCommandTo = function (command) {
@@ -106,8 +109,8 @@ var cmd;
         CommandController.prototype.getFiles = function () {
             return this.files;
         };
-        CommandController.prototype.printText = function (out, delay, newLine) {
-            if (delay === void 0) { delay = this.defaultDelay; }
+        CommandController.prototype.printText = function (out, delayTenthseconds, newLine) {
+            if (delayTenthseconds === void 0) { delayTenthseconds = this.defaultDelay; }
             if (newLine === void 0) { newLine = true; }
             return __awaiter(this, void 0, void 0, function () {
                 var _i, out_1, char;
@@ -123,7 +126,7 @@ var cmd;
                             this.displayText += char;
                             $('#display').text(this.displayText);
                             updateSize();
-                            return [4 /*yield*/, new Promise(function (r) { return setTimeout(r, delay); })];
+                            return [4 /*yield*/, cmd.wait(delayTenthseconds)];
                         case 2:
                             _a.sent();
                             _a.label = 3;
@@ -157,7 +160,7 @@ var cmd;
                                 this.displayText += '\n';
                             }
                             this.firstEnter = false;
-                            this.displayText += this.activeCmd.promptIndicatorText + rmvSpace(input);
+                            this.displayText += this.activeCmd.promptIndicatorText + cmd.rmvSpace(input);
                             $('#display').text(this.displayText);
                             $('#textbox').val('');
                             updateSize();
@@ -192,7 +195,7 @@ var cmd;
             }
         };
         CommandController.prototype.doAutoFill = function () {
-            var autofillList = this.activeCmd.getAutofillList(rmvSpace(this.autofillInput));
+            var autofillList = this.activeCmd.getAutofillList(cmd.rmvSpace(this.autofillInput));
             if (this.autofillInput == '') {
                 this.autofillInput = String($('#textbox').val());
             }
@@ -224,10 +227,4 @@ var cmd;
         return CommandController;
     }());
     cmd.CommandController = CommandController;
-    function rmvSpace(str) {
-        while (str.slice(-1) == ' ') {
-            str = str.slice(0, -1);
-        }
-        return str;
-    }
 })(cmd || (cmd = {}));
