@@ -100,7 +100,7 @@ var cmd;
                 'style',
                 'chat',
                 'love',
-                'list',
+                'listfiles',
                 'open'
             ];
             return _this;
@@ -136,7 +136,7 @@ var cmd;
                                 case 'style': return [3 /*break*/, 5];
                                 case 'love': return [3 /*break*/, 7];
                                 case 'chat': return [3 /*break*/, 9];
-                                case 'list': return [3 /*break*/, 11];
+                                case 'listfiles': return [3 /*break*/, 11];
                                 case 'open': return [3 /*break*/, 13];
                                 case 'meltdown': return [3 /*break*/, 15];
                             }
@@ -161,7 +161,7 @@ var cmd;
                         case 10:
                             _b.sent();
                             return [3 /*break*/, 19];
-                        case 11: return [4 /*yield*/, this.list()];
+                        case 11: return [4 /*yield*/, this.listfiles()];
                         case 12:
                             _b.sent();
                             return [3 /*break*/, 19];
@@ -182,13 +182,13 @@ var cmd;
                 });
             });
         };
-        Default.prototype.list = function () {
+        Default.prototype.listfiles = function () {
             return __awaiter(this, void 0, void 0, function () {
                 var out, files, key;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            out = '';
+                            out = 'files in current folder:\n';
                             files = this.delegate.getFiles();
                             for (key in files) {
                                 out += key + ' (' + files[key].type + ')\n';
@@ -207,19 +207,23 @@ var cmd;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            file = this.delegate.getFiles()[filename];
-                            if (!(file == null)) return [3 /*break*/, 2];
-                            return [4 /*yield*/, this.delegate.printText('error: file with name: ' + filename + ' not found')];
+                            if (!(filename === '')) return [3 /*break*/, 2];
+                            return [4 /*yield*/, this.delegate.printText('syntax error: filename required. -> \'open log1\'')];
                         case 1:
                             _a.sent();
-                            _a.label = 2;
+                            return [2 /*return*/];
                         case 2:
-                            if (file.type == 'img') {
-                            }
-                            return [4 /*yield*/, this.delegate.printText('opening file ' + filename + '...\n================================\n' + file.content + '\n================================')];
+                            file = this.delegate.getFiles()[filename];
+                            if (!(file == null)) return [3 /*break*/, 4];
+                            return [4 /*yield*/, this.delegate.printText('error: file with name: ' + filename + ' not found in the current folder')];
                         case 3:
                             _a.sent();
-                            return [2 /*return*/];
+                            return [3 /*break*/, 6];
+                        case 4: return [4 /*yield*/, this.delegate.printText('opening file ' + filename + '...\n================================\n' + file.content + '\n================================')];
+                        case 5:
+                            _a.sent();
+                            _a.label = 6;
+                        case 6: return [2 /*return*/];
                     }
                 });
             });
@@ -257,13 +261,14 @@ var cmd;
                             return [4 /*yield*/, this.delegate.printText('syntax error: style command requires a key and a value. -> \'style color blue\'')];
                         case 1:
                             _a.sent();
-                            _a.label = 2;
+                            return [3 /*break*/, 4];
                         case 2:
                             $('*').css(key, value);
                             return [4 /*yield*/, this.delegate.printText('did set ' + key + ' to ' + value)];
                         case 3:
                             _a.sent();
-                            return [2 /*return*/];
+                            _a.label = 4;
+                        case 4: return [2 /*return*/];
                     }
                 });
             });
@@ -410,8 +415,11 @@ var cmd;
                     switch (_a.label) {
                         case 0:
                             this.loggedIn = text == this.password;
-                            out = this.loggedIn ? 'login successful! currently online users: 0 \ntype \'help\' for instructions or \'quit\' to exit the chat'
-                                : 'wrong password. type \'help\' for instructions or \'quit\' to exit the chat';
+                            if (this.loggedIn) {
+                                this.promptIndicatorText = 'unknown-user->global:';
+                            }
+                            out = this.loggedIn ? 'login successful! currently online users: 0 \ntype \'quit\' to exit the chat'
+                                : 'wrong password. type \'quit\' to exit the chat';
                             return [4 /*yield*/, this.delegate.printText(out)];
                         case 1:
                             _a.sent();
@@ -436,7 +444,9 @@ var cmd;
                         case 2:
                             _b.sent();
                             return [3 /*break*/, 20];
-                        case 3: return [4 /*yield*/, this.delegate.printText('try connecting to lucy')];
+                        case 3:
+                            this.promptIndicatorText = 'unknown-user->lucy:';
+                            return [4 /*yield*/, this.delegate.printText('try connecting to lucy')];
                         case 4:
                             _b.sent();
                             return [4 /*yield*/, this.delegate.printText(' . . . ', 500, false)];

@@ -40,7 +40,7 @@ namespace cmd{
                 'style',
                 'chat',
                 'love',
-                'list',
+                'listfiles',
                 'open'
             ];
         }
@@ -71,15 +71,15 @@ namespace cmd{
                 case 'style': await this.style(args); break;
                 case 'love': await this.love(); break;
                 case 'chat': await this.chat(); break;
-                case 'list': await this.list(); break;
+                case 'listfiles': await this.listfiles(); break;
                 case 'open': await this.open(args); break;
                 case 'meltdown': await this.meltdown(args); break;
                 default: await this.delegate.printText('undefined command: ' + text + '\ntype \'help\' to get a list of all commands');
             }
         }
         
-        async list():Promise<void>{
-            var out = '';
+        async listfiles():Promise<void>{
+            var out = 'files in current folder:\n';
             var files = this.delegate.getFiles()
             for (var key in files){
                 out += key + ' (' + files[key].type + ')\n';
@@ -88,14 +88,16 @@ namespace cmd{
         }
 
         async open(filename:string):Promise<void>{
+            if (filename === ''){
+                await this.delegate.printText('syntax error: filename required. -> \'open log1\'');
+                return;
+            }
             var file = this.delegate.getFiles()[filename];
             if (file == null){
-                await this.delegate.printText('error: file with name: ' + filename + ' not found');
+                await this.delegate.printText('error: file with name: ' + filename + ' not found in the current folder'); 
+            } else {
+                await this.delegate.printText('opening file ' + filename + '...\n================================\n' + file.content + '\n================================');
             }
-            if (file.type == 'img'){
-                
-            }
-            await this.delegate.printText('opening file ' + filename + '...\n================================\n' + file.content + '\n================================');
         }
         
         async println(args:string):Promise<void>{
@@ -113,9 +115,10 @@ namespace cmd{
             value = args.substr(args.indexOf(' ')+1);
             if (key == '' || value == ''){
                 await this.delegate.printText('syntax error: style command requires a key and a value. -> \'style color blue\'');
+            } else {
+                $('*').css(key, value);
+                await this.delegate.printText('did set ' + key + ' to ' + value);
             }
-            $('*').css(key, value);
-            await this.delegate.printText('did set ' + key + ' to ' + value);
         }
         
         async love():Promise<void>{
@@ -192,8 +195,9 @@ namespace cmd{
     
         async logIn(text:string):Promise<void>{
             this.loggedIn = text == this.password;
-            var out:string = this.loggedIn ? 'login successful! currently online users: 0 \ntype \'help\' for instructions or \'quit\' to exit the chat' 
-                                : 'wrong password. type \'help\' for instructions or \'quit\' to exit the chat';
+            if (this.loggedIn) {this.promptIndicatorText = 'unknown-user->global:';}
+            var out:string = this.loggedIn ? 'login successful! currently online users: 0 \ntype \'quit\' to exit the chat' 
+                                : 'wrong password. type \'quit\' to exit the chat';
             await this.delegate.printText(out);
         }
 
@@ -203,6 +207,7 @@ namespace cmd{
                     await this.delegate.printText('syntax error: name of user to connect to required. -> \'enterPrivateChat peter\'');
                     break;
                 case 'lucy':
+                    this.promptIndicatorText = 'unknown-user->lucy:';
                     await this.delegate.printText('try connecting to lucy');
                     await this.delegate.printText(' . . . ', 500, false);
                     await this.delegate.printText('connection succesful!', this.delegate.defaultDelay, false);
