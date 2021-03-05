@@ -1,2 +1,2 @@
 ## Project Kapcsolat
-Prototype fpr a console like browser mystery story adventure game.
+Prototype for a console like browser mystery story adventure game.
