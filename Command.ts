@@ -190,12 +190,15 @@ namespace cmd{
         }
     
         async send(text:string):Promise<void>{
-            await this.delegate.printText('unknown-user: ' + text);
+            //await this.delegate.printText('unknown-user: ' + text);
         }
     
         async logIn(text:string):Promise<void>{
             this.loggedIn = text == this.password;
-            if (this.loggedIn) {this.promptIndicatorText = 'unknown-user->global:';}
+            if (this.loggedIn) {
+                this.promptIndicatorText = 'unknown-user->global:';
+                $('#prompt-indicator').text(this.promptIndicatorText);
+            }
             var out:string = this.loggedIn ? 'login successful! currently online users: 0 \ntype \'quit\' to exit the chat' 
                                 : 'wrong password. type \'quit\' to exit the chat';
             await this.delegate.printText(out);
