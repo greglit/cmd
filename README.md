@@ -1,2 +1,2 @@
 ## Project Kapcsolat
-Prototype for a console like browser mystery story adventure game.
+Prototype for a comando-prompt-driven browser mystery story adventure game.
