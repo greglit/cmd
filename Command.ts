@@ -159,38 +159,38 @@ namespace cmd{
             await wait(4000);
             await this.delegate.printText('   Ich exitiere nur zu einem einzigen Zwecke \n   und bin auch nur für eine einzige Person bestimmt.');
             await wait(4000);
-            await this.delegate.printText('   Nur wenn Zweck und Person in ein und dem selben Moment \n   hier und jetzt existieren, \n   dann werde ich mich offenbaren!');
+            await this.delegate.printText('   Nur wenn Zweck und Person in ein und dem \n   selben Moment hier und jetzt existieren, \n   dann werde ich mich offenbaren!');
             await wait(5000);
-            await this.delegate.printText('   Um zu beweisen, dass diese Voraussetzungen erfüllt sind, \n   musst Du nun drei merkwürdige Fragen, \n   äh ich meine natürlich, drei ruhmhafte Prüfungen bestehen.');
+            await this.delegate.printText('   Um zu beweisen, dass diese Voraussetzungen erfüllt \n   sind, musst Du nun drei merkwürdige Fragen, \n   äh ich meine natürlich, \n   drei ruhmhafte Prüfungen bestehen.');
             await wait(5000);
-            await this.delegate.printText('   Als erste Prüfung, nenne man mir das Passwort:');
+            await this.delegate.printText('   Als erste Prüfung, \n   nenne man mir das Passwort:');
             this.state = 'password'
         }
 
         async password(text:string):Promise<void>{
             if (text == '131096') {
-                await this.delegate.printText(`   Wahrhaftig! Das ist das einzig richtige Passwort.`);
+                await this.delegate.printText(`   Wahrhaftig! Das ist das einzig \n   richtige Passwort.`);
                 await wait(1000);
-                await this.delegate.printText('   Für die nächste Prüfung bedarf es Verstand und Beistand. \n   Am besten wird diese Prüfung in Gruppenarbeit, \n   äh ich meine natürlich zusammen mit Deinen \n   ruhmhaften Gefährten absolviert.');
+                await this.delegate.printText('   Für die nächste Prüfung bedarf es \n   Verstand und Beistand. \n   Am besten wird diese Prüfung \n   in Gruppenarbeit, \n   äh ich meine natürlich zusammen mit Deinen \n   ruhmhaften Gefährten absolviert.');
                 await wait(6000);
                 await this.delegate.printText(`   So folget nun ein Rätsel:\n`);
                 await wait(2000);
-                await this.delegate.printText(`   „Alle Menschen haben mich, unmöglich der Verzicht.\nDoch mancher Mensch verachtet mich und wünscht, es gäb mich nicht.\n
-                Beachte mich, betrachte mich, bis dein Verstand erweicht. \nDabei kannst du mir doch nichts tun, weil mich kein Schlag erreicht.\n
-                Kinder lachen über mich, und Alte müssen weinen. \nHübschen Mädchen muss ich wohl ganz allerliebst erscheinen.\n
-                Wenn du schluchzt, so weine ich - gähnst du, will ich schlafen.\nLächle, und ich strahle, als erklängen tausend Harfen.“`);
+                await this.delegate.printText(`   „Alle Menschen haben mich, \n   unmöglich der Verzicht.\nDoch mancher Mensch verachtet mich \n   und wünscht, es gäb mich nicht.\n
+                Beachte mich, betrachte mich, \n   bis dein Verstand erweicht. \nDabei kannst du mir doch nichts tun, \n   weil mich kein Schlag erreicht.\n
+                Kinder lachen über mich, \n   und Alte müssen weinen. \nHübschen Mädchen muss ich wohl \n   ganz allerliebst erscheinen.\n
+                Wenn du schluchzt, so weine ich - \n   gähnst du, will ich schlafen.\nLächle, und ich strahle, \n   als erklängen tausend Harfen.“`);
                 await wait(8000);
-                await this.delegate.printText(`\n   Wer beschreibet sich selbst in diesem Zitat?`);
+                await this.delegate.printText(`\n   Wer beschreibet sich selbst \n   in diesem Zitat?`);
 
                 this.state = 'riddle';
                 this.tryCount = 0;
             } else {
                 if (this.tryCount == 0) {
-                    await this.delegate.printText(`   Oh welch frevel! Das ist nicht das richtige Passwort! \n   Ich gewähre dir einen weiteren Versuch.`);
+                    await this.delegate.printText(`   Oh welch frevel! \n   Das ist nicht das richtige Passwort! \n   Ich gewähre dir einen weiteren Versuch.`);
                 } else if (this.tryCount == 1) {
-                    await this.delegate.printText(`   Oh welch erneuter frevel! Das ist nicht das richtige Passwort! \n   So probiere man erneut!`);
+                    await this.delegate.printText(`   Oh welch erneuter frevel! \n   Das ist nicht das richtige Passwort! \n   So probiere man erneut!`);
                 } else {
-                    await this.delegate.printText(`   Oh welch erneuter großer frevel! Das ist auch falsch! \n   Ich sage nur so viel: Nicht lettern, sondern ziffern.`);
+                    await this.delegate.printText(`   Oh welch erneuter großer frevel! \n   Das ist auch falsch! \n   Ich sage nur so viel: \n   Nicht lettern, sondern ziffern.`);
                 }
                 
                 this.tryCount += 1;
@@ -199,20 +199,20 @@ namespace cmd{
 
         async riddle(text:string):Promise<void>{
             if (text == 'Spiegelbild' || text == 'spiegelbild') {
-                await this.delegate.printText(`   Wahrhaftig und wunderbahr! Das Spiegelbild hat hier gesprochen!`);
+                await this.delegate.printText(`   Wahrhaftig und wunderbahr! \n   Das Spiegelbild hat hier gesprochen!`);
                 await wait(1000);
-                await this.delegate.printText('   Für die letzte Prüfung bedarf es ein bisschen balla balla im Kopf, \n   äh ich meine natürlich eine frohlockende Fantasie!.');
+                await this.delegate.printText('   Für die letzte Prüfung bedarf es \n   ein bisschen balla balla im Kopf, \n   äh ich meine natürlich \n   eine frohlockende Fantasie!.');
                 await wait(4000);
-                await this.delegate.printText(`   Man nenne mir den Namen des Tanzes den man \n   beim Zähneputzen pflegt zu vollführen:`);
+                await this.delegate.printText(`   Man nenne mir den Namen \n   des Tanzes den man \n   beim Zähneputzen pflegt \n   zu vollführen:`);
                 this.state = 'dance';
                 this.tryCount = 0;
             } else {
                 if (this.tryCount == 0) {
-                    await this.delegate.printText(`   Oh welch frevel! "${text}" ist nicht richtig. \n   Ich gewähre dir einen weiteren Versuch.`);
+                    await this.delegate.printText(`   Oh welch frevel! \n   "${text}" ist nicht richtig. \n   Ich gewähre dir einen weiteren Versuch.`);
                 } else if (this.tryCount == 1) {
-                    await this.delegate.printText(`   Oh welch erneuter frevel! "${text}" ist auch nicht richtig. \n   So probiere man erneut!`);
+                    await this.delegate.printText(`   Oh welch erneuter frevel! \n   "${text}" ist auch nicht richtig. \n   So probiere man erneut!`);
                 } else {
-                    await this.delegate.printText(`   Oh welch erneuter großer frevel! "${text}" ist auch falsch! \n   Hier fällt mir beim besten willen kein guter Tipp ein.`);
+                    await this.delegate.printText(`   Oh welch erneuter großer frevel! \n   "${text}" ist auch falsch! \n   Hier fällt mir beim besten willen \n   kein guter Tipp ein.`);
                 }
                 this.tryCount += 1;
             }
@@ -222,21 +222,21 @@ namespace cmd{
             if (text == 'boogie' || text == 'Boogie' || text == 'Zahnputzboogie' || text == 'zahnputzboogie') {
                 await this.delegate.printText(`   Wahrhaftig, wunderbahr und wunderschön ist dieser Zahnputzboogie!`);
                 await wait(1000);
-                await this.delegate.printText('   So ist es nun vollbracht, alle Prüfungen wurden bestanden. \n   Du hast nun bewiesen, dass du die einzig wahre Person und das der einzig wahre Zweck ist...')
+                await this.delegate.printText('   So ist es nun vollbracht, \n   alle Prüfungen wurden bestanden. \n   Du hast nun bewiesen, dass du die einzig wahre Person \n   und das der einzig wahre Zweck ist...')
                 await wait(2000);
-                await this.delegate.printText(`   Ach was mache ich mir vor, interessiert doch eh keinen was ich hier fasel.`);
+                await this.delegate.printText(`   Ach was mache ich mir vor, \n   interessiert doch eh keinen \n   was ich hier fasel.`);
                 await wait(2000);
-                await this.delegate.printText(`   Mein erschaffer möchte, dass ich dir etwas zeige. Er nennt es "Geburtstagskarte". \n   Was auch immer das sein soll...`);
+                await this.delegate.printText(`   Mein erschaffer möchte, \n   dass ich dir etwas zeige. \n   Er nennt es "Geburtstagskarte". \n   Was auch immer das sein soll...`);
                 await wait(4000);
-                await this.delegate.printText(`   Schreibe deinen Namen und lies selbst!`);
+                await this.delegate.printText(`   Schreibe deinen Namen \n   und lies selbst!`);
                 this.state = 'pia';
             } else {
                 if (this.tryCount == 0) {
-                    await this.delegate.printText(`   Oh welch frevel! "${text}" ist nicht richtig. \n   Ich gewähre dir einen weiteren Versuch.`);
+                    await this.delegate.printText(`   Oh welch frevel! \n   "${text}" ist nicht richtig. \n   Ich gewähre dir einen weiteren Versuch.`);
                 } else if (this.tryCount == 1) {
-                    await this.delegate.printText(`   Oh welch erneuter frevel! "${text}" ist auch nicht richtig. \n   So probiere man erneut!`);
+                    await this.delegate.printText(`   Oh welch erneuter frevel! \n   "${text}" ist auch nicht richtig. \n   So probiere man erneut!`);
                 } else {
-                    await this.delegate.printText(`   Oh welch erneuter großer frevel! "${text}" ist auch falsch! \n   Mein erschaffer meinte du wüsstest das sicher!`);
+                    await this.delegate.printText(`   Oh welch erneuter großer frevel! \n   "${text}" ist auch falsch! \n   Mein erschaffer meinte du wüsstest das sicher!`);
                 }
                 this.tryCount += 1;
             }
@@ -244,7 +244,7 @@ namespace cmd{
 
         async pia(text:string):Promise<void>{
             if (text == 'pia' || text == 'Pia') {
-                await this.delegate.printText(`\n   Meine liebe Pia, \n   Ich wünsche dir alles, alles gute zu deinem 25. Geburtstag, mein Schatz. \n   Auf einen / mehrer wunderschöne Tage mit unseren Freunden, \n   und einen wunderschönen Abend zu zweit! \n   Lass es krachen! \n   Ich liebe Dich \n   Dein liebster Gregor`);
+                await this.delegate.printText(`\n   Meine liebe Pia, \n   Ich wünsche dir alles, alles gute \n   zu deinem 25. Geburtstag, mein Schatz. \n   Auf einen / mehrer wunderschöne Tage \n   mit unseren Freunden, \n   und einen wunderschönen \n   Abend zu zweit! \n   Lass es krachen! \n   Ich liebe Dich \n   Dein liebster Gregor`);
             }
         }
 
