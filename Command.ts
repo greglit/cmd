@@ -220,9 +220,9 @@ namespace cmd{
 
         async dance(text:string):Promise<void>{
             if (text == 'boogie' || text == 'Boogie' || text == 'Zahnputzboogie' || text == 'zahnputzboogie') {
-                await this.delegate.printText(`   Wahrhaftig, wunderbahr und wunderschön ist dieser Zahnputzboogie!`);
+                await this.delegate.printText(`   Wahrhaftig, wunderbahr \n   und wunderschön \n   ist dieser Zahnputzboogie!`);
                 await wait(1000);
-                await this.delegate.printText('   So ist es nun vollbracht, \n   alle Prüfungen wurden bestanden. \n   Du hast nun bewiesen, dass du die einzig wahre Person \n   und das der einzig wahre Zweck ist...')
+                await this.delegate.printText('   So ist es nun vollbracht, \n   alle Prüfungen wurden bestanden. \n   Du hast nun bewiesen, \n   dass du die einzig wahre Person \n   und das der einzig wahre Zweck ist...')
                 await wait(2000);
                 await this.delegate.printText(`   Ach was mache ich mir vor, \n   interessiert doch eh keinen \n   was ich hier fasel.`);
                 await wait(2000);
@@ -244,7 +244,7 @@ namespace cmd{
 
         async pia(text:string):Promise<void>{
             if (text == 'pia' || text == 'Pia') {
-                await this.delegate.printText(`\n   Meine liebe Pia, \n   Ich wünsche dir alles, alles gute \n   zu deinem 25. Geburtstag, mein Schatz. \n   Auf einen / mehrer wunderschöne Tage \n   mit unseren Freunden, \n   und einen wunderschönen \n   Abend zu zweit! \n   Lass es krachen! \n   Ich liebe Dich \n   Dein liebster Gregor`);
+                await this.delegate.printText(`\n   Meine liebe Pia, \n   Ich wünsche dir alles, alles gute \n   zu deinem 25. Geburtstag, mein Schatz. \n   Auf einen oder mehrer \n   wunderschöne Tage mit unseren Freunden, \n   und einen wunderschönen \n   Abend zu zweit! \n   Lass es krachen! \n\n   Ich liebe Dich. \n   Dein liebster Gregor`);
             }
         }
 

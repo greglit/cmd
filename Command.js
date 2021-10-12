@@ -481,13 +481,13 @@ var cmd;
                     switch (_a.label) {
                         case 0:
                             if (!(text == 'boogie' || text == 'Boogie' || text == 'Zahnputzboogie' || text == 'zahnputzboogie')) return [3 /*break*/, 10];
-                            return [4 /*yield*/, this.delegate.printText("   Wahrhaftig, wunderbahr und wundersch\u00F6n ist dieser Zahnputzboogie!")];
+                            return [4 /*yield*/, this.delegate.printText("   Wahrhaftig, wunderbahr \n   und wundersch\u00F6n \n   ist dieser Zahnputzboogie!")];
                         case 1:
                             _a.sent();
                             return [4 /*yield*/, cmd.wait(1000)];
                         case 2:
                             _a.sent();
-                            return [4 /*yield*/, this.delegate.printText('   So ist es nun vollbracht, \n   alle Prüfungen wurden bestanden. \n   Du hast nun bewiesen, dass du die einzig wahre Person \n   und das der einzig wahre Zweck ist...')];
+                            return [4 /*yield*/, this.delegate.printText('   So ist es nun vollbracht, \n   alle Prüfungen wurden bestanden. \n   Du hast nun bewiesen, \n   dass du die einzig wahre Person \n   und das der einzig wahre Zweck ist...')];
                         case 3:
                             _a.sent();
                             return [4 /*yield*/, cmd.wait(2000)];
@@ -540,7 +540,7 @@ var cmd;
                     switch (_a.label) {
                         case 0:
                             if (!(text == 'pia' || text == 'Pia')) return [3 /*break*/, 2];
-                            return [4 /*yield*/, this.delegate.printText("\n   Meine liebe Pia, \n   Ich w\u00FCnsche dir alles, alles gute \n   zu deinem 25. Geburtstag, mein Schatz. \n   Auf einen / mehrer wundersch\u00F6ne Tage \n   mit unseren Freunden, \n   und einen wundersch\u00F6nen \n   Abend zu zweit! \n   Lass es krachen! \n   Ich liebe Dich \n   Dein liebster Gregor")];
+                            return [4 /*yield*/, this.delegate.printText("\n   Meine liebe Pia, \n   Ich w\u00FCnsche dir alles, alles gute \n   zu deinem 25. Geburtstag, mein Schatz. \n   Auf einen oder mehrer \n   wundersch\u00F6ne Tage mit unseren Freunden, \n   und einen wundersch\u00F6nen \n   Abend zu zweit! \n   Lass es krachen! \n\n   Ich liebe Dich. \n   Dein liebster Gregor")];
                         case 1:
                             _a.sent();
                             _a.label = 2;
