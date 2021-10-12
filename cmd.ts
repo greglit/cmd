@@ -1,5 +1,4 @@
 /// <reference path="Command.ts" />
-/// <reference path="Glitch.ts" />
 /// <reference path="Utility.ts" />
 
 namespace cmd{
@@ -64,8 +63,6 @@ namespace cmd{
 		activeCmd:Command;
 		defaultDelay:number = 5;
 
-		glitch:Glitch;
-
 		files: {[name:string] : File} = {
 			'log1' : {type:'txt', content:'|01| Tue May 22nd 2087\n|02|\n|03| today nothing happened'},
 			'log2' : {type:'txt', content:'|01| Mon June 13th 2087\n|02|\n|03| nothing happend today'},
@@ -76,7 +73,6 @@ namespace cmd{
 		constructor(){
 			this.activeCmd = new Default(this);
 			this.enableInput();
-			this.glitch = new Glitch();
 		}
 
 		/*----CommandDelegate----*/
