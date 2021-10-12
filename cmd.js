@@ -85,7 +85,7 @@ var cmd;
             this.histIndex = 0;
             this.autofillInput = '';
             this.lastAutofill = '';
-            this.defaultDelay = 5;
+            this.defaultDelay = 10;
             this.files = {
                 'log1': { type: 'txt', content: '|01| Tue May 22nd 2087\n|02|\n|03| today nothing happened' },
                 'log2': { type: 'txt', content: '|01| Mon June 13th 2087\n|02|\n|03| nothing happend today' },
