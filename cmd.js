@@ -1,5 +1,4 @@
 /// <reference path="Command.ts" />
-/// <reference path="Glitch.ts" />
 /// <reference path="Utility.ts" />
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -42,7 +41,7 @@ var cmd;
     $(document).ready(function () {
         cmdC = new CommandController();
         $('#prompt-indicator').text(cmdC.activeCmd.promptIndicatorText);
-        cmdC.displayText = $('#display').text();
+        cmdC.displayText = $('#display').html();
         updateSize();
         $('#textbox').val('').focus();
         $('#bottom-space').height($(window).height() - $('#prompt-indicator').height() - $('#display').height());
@@ -93,9 +92,8 @@ var cmd;
                 'lucy': { type: 'txt', content: '|01|\n|02|\n|03|\n|04| PW: sunflower' },
                 'virus': { type: 'img', content: '<img src="media/art.png"></img>' }
             };
-            this.activeCmd = new cmd.Default(this);
+            this.activeCmd = new cmd.Chat(this);
             this.enableInput();
-            this.glitch = new cmd.Glitch();
         }
         /*----CommandDelegate----*/
         CommandController.prototype.switchActiveCommandTo = function (command) {
@@ -122,7 +120,7 @@ var cmd;
                             if (!(_i < out_1.length)) return [3 /*break*/, 4];
                             char = out_1[_i];
                             this.displayText += char;
-                            $('#display').text(this.displayText);
+                            $('#display').html(this.displayText);
                             updateSize();
                             return [4 /*yield*/, cmd.wait(delayTenthseconds)];
                         case 2:
@@ -158,8 +156,8 @@ var cmd;
                                 this.displayText += '\n';
                             }
                             this.firstEnter = false;
-                            this.displayText += this.activeCmd.promptIndicatorText + cmd.rmvSpace(input);
-                            $('#display').text(this.displayText);
+                            this.displayText += this.activeCmd.promptIndicatorText + ("<span class=\"handwriting\">" + cmd.rmvSpace(input) + "</span>");
+                            $('#display').html(this.displayText);
                             $('#textbox').val('');
                             updateSize();
                             if (!(input != '')) return [3 /*break*/, 2];

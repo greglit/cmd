@@ -8,7 +8,7 @@ namespace cmd{
 		cmdC = new CommandController();
 
 		$('#prompt-indicator').text(cmdC.activeCmd.promptIndicatorText);
-		cmdC.displayText = $('#display').text();
+		cmdC.displayText = $('#display').html();
 		updateSize();
 		$('#textbox').val('').focus();
 		$('#bottom-space').height($(window).height()! - $('#prompt-indicator').height()! - $('#display').height()!);	
@@ -71,7 +71,7 @@ namespace cmd{
 		};
 
 		constructor(){
-			this.activeCmd = new Default(this);
+			this.activeCmd = new Chat(this);
 			this.enableInput();
 		}
 
@@ -91,7 +91,7 @@ namespace cmd{
 			this.displayText += newLine ? '\n' : '';
 			for (var char of out){
 				this.displayText += char;
-				$('#display').text(this.displayText);
+				$('#display').html(this.displayText);
 				updateSize();
 				await wait(delayTenthseconds);
 			}
@@ -117,8 +117,8 @@ namespace cmd{
 				this.displayText += '\n';
 			}
 			this.firstEnter = false;
-			this.displayText += this.activeCmd.promptIndicatorText + rmvSpace(input);
-			$('#display').text(this.displayText);
+			this.displayText += this.activeCmd.promptIndicatorText + `<span class="handwriting">${rmvSpace(input)}</span>`;
+			$('#display').html(this.displayText);
 			$('#textbox').val('');
 			updateSize();
 			if (input != ''){

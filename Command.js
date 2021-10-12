@@ -68,12 +68,12 @@ var cmd;
                 return __generator(this, function (_b) {
                     switch (_b.label) {
                         case 0:
-                            out = '================================\navailabe commands: \n';
+                            out = '================================\nschreibe dies und ich verstehe: \n';
                             for (_i = 0, _a = this.commands; _i < _a.length; _i++) {
                                 command = _a[_i];
                                 out += command + '\n';
                             }
-                            return [4 /*yield*/, this.delegate.printText(out.slice(0, -1) + '\nuse arrows \'UP\' \'DOWN\' \'RIGHT\' for history and autocomplete\n================================')];
+                            return [4 /*yield*/, this.delegate.printText(out.slice(0, -1) + '================================')];
                         case 1:
                             _b.sent();
                             return [2 /*return*/];
@@ -91,15 +91,13 @@ var cmd;
         __extends(Default, _super);
         function Default(delegate) {
             var _this = _super.call(this, delegate) || this;
-            _this.promptIndicatorText = 'unknown-user:~$';
+            _this.promptIndicatorText = 'Schreibe hier:';
             _this.commands = [
-                'help',
-                'print',
-                'style',
-                'chat',
-                'love',
-                'listfiles',
-                'open'
+                'hilfe',
+                'grußkarte',
+                'liebe',
+                'texte',
+                'vorlesen'
             ];
             return _this;
         }
@@ -129,53 +127,38 @@ var cmd;
                             }
                             _a = command;
                             switch (_a) {
-                                case 'help': return [3 /*break*/, 1];
-                                case 'print': return [3 /*break*/, 3];
-                                case 'style': return [3 /*break*/, 5];
-                                case 'love': return [3 /*break*/, 7];
-                                case 'chat': return [3 /*break*/, 9];
-                                case 'listfiles': return [3 /*break*/, 11];
-                                case 'open': return [3 /*break*/, 13];
-                                case 'meltdown': return [3 /*break*/, 15];
+                                case 'hilfe': return [3 /*break*/, 1];
+                                case 'liebe': return [3 /*break*/, 3];
+                                case 'grußkarte': return [3 /*break*/, 5];
+                                case 'texte': return [3 /*break*/, 7];
+                                case 'vorlesen': return [3 /*break*/, 9];
                             }
-                            return [3 /*break*/, 17];
+                            return [3 /*break*/, 11];
                         case 1: return [4 /*yield*/, this.help()];
                         case 2:
                             _b.sent();
-                            return [3 /*break*/, 19];
-                        case 3: return [4 /*yield*/, this.println(args)];
+                            return [3 /*break*/, 13];
+                        case 3: return [4 /*yield*/, this.love()];
                         case 4:
                             _b.sent();
-                            return [3 /*break*/, 19];
-                        case 5: return [4 /*yield*/, this.style(args)];
+                            return [3 /*break*/, 13];
+                        case 5: return [4 /*yield*/, this.chat()];
                         case 6:
                             _b.sent();
-                            return [3 /*break*/, 19];
-                        case 7: return [4 /*yield*/, this.love()];
+                            return [3 /*break*/, 13];
+                        case 7: return [4 /*yield*/, this.listfiles()];
                         case 8:
                             _b.sent();
-                            return [3 /*break*/, 19];
-                        case 9: return [4 /*yield*/, this.chat()];
+                            return [3 /*break*/, 13];
+                        case 9: return [4 /*yield*/, this.open(args)];
                         case 10:
                             _b.sent();
-                            return [3 /*break*/, 19];
-                        case 11: return [4 /*yield*/, this.listfiles()];
+                            return [3 /*break*/, 13];
+                        case 11: return [4 /*yield*/, this.delegate.printText("Du schreibts \"" + text + "\" und doch verstehe ich dich nicht.'\nSchreibe 'hilfe' und wir werden beide verstehen.")];
                         case 12:
                             _b.sent();
-                            return [3 /*break*/, 19];
-                        case 13: return [4 /*yield*/, this.open(args)];
-                        case 14:
-                            _b.sent();
-                            return [3 /*break*/, 19];
-                        case 15: return [4 /*yield*/, this.meltdown(args)];
-                        case 16:
-                            _b.sent();
-                            return [3 /*break*/, 19];
-                        case 17: return [4 /*yield*/, this.delegate.printText('undefined command: ' + text + '\ntype \'help\' to get a list of all commands')];
-                        case 18:
-                            _b.sent();
-                            _b.label = 19;
-                        case 19: return [2 /*return*/];
+                            _b.label = 13;
+                        case 13: return [2 /*return*/];
                     }
                 });
             });
@@ -283,35 +266,13 @@ var cmd;
                 });
             });
         };
-        Default.prototype.meltdown = function (args) {
-            return __awaiter(this, void 0, void 0, function () {
-                var duration;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            if (!!cmd.isNumber(args)) return [3 /*break*/, 2];
-                            return [4 /*yield*/, this.delegate.printText('syntax error: meltdown command requires a time in seconds value. -> \'meltdown 10\'')];
-                        case 1:
-                            _a.sent();
-                            return [3 /*break*/, 4];
-                        case 2:
-                            duration = Number(args);
-                            return [4 /*yield*/, this.delegate.glitch.totalMeltdown(duration)];
-                        case 3:
-                            _a.sent();
-                            _a.label = 4;
-                        case 4: return [2 /*return*/];
-                    }
-                });
-            });
-        };
         Default.prototype.chat = function () {
             return __awaiter(this, void 0, void 0, function () {
                 var chat;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            chat = new Chat(this.delegate, this);
+                            chat = new Chat(this.delegate);
                             this.delegate.switchActiveCommandTo(chat);
                             return [4 /*yield*/, chat.startUp()];
                         case 1:
@@ -326,11 +287,10 @@ var cmd;
     cmd.Default = Default;
     var Chat = /** @class */ (function (_super) {
         __extends(Chat, _super);
-        function Chat(delegate, previous) {
+        function Chat(delegate) {
             var _this = _super.call(this, delegate) || this;
-            _this.password = 'sunflower';
-            _this.loggedIn = false;
-            _this.previousActive = previous;
+            _this.state = 'firstPrompt';
+            _this.tryCount = 0;
             _this.commands = [
                 'help',
                 'quit',
@@ -352,146 +312,117 @@ var cmd;
         };
         Chat.prototype.evalInput = function (text) {
             return __awaiter(this, void 0, void 0, function () {
-                var command, args;
                 return __generator(this, function (_a) {
-                    command = text.substr(0, text.indexOf(' '));
-                    args = text.substr(text.indexOf(' ') + 1);
-                    if (command == '') {
-                        command = args;
-                        args = '';
-                    }
-                    switch (command) {
-                        case 'help':
-                            this.help();
+                    switch (this.state) {
+                        case 'firstPrompt':
+                            this.welcome();
                             break;
-                        case 'quit':
-                            this.quit();
+                        case 'password':
+                            this.password(text);
                             break;
-                        case 'enterPrivateChat':
-                            if (this.loggedIn) {
-                                this.enterPrivateChat(args);
-                            }
-                            else {
-                                this.logIn(text);
-                            }
-                            break;
-                        default:
-                            if (this.loggedIn) {
-                                this.send(text);
-                                break;
-                            }
-                            else {
-                                this.logIn(text);
-                                break;
-                            }
                     }
                     return [2 /*return*/];
                 });
             });
         };
-        Chat.prototype.quit = function () {
-            if (this.previousActive != null) {
-                this.delegate.switchActiveCommandTo(this.previousActive);
-            }
-        };
-        Chat.prototype.send = function (text) {
+        Chat.prototype.welcome = function () {
             return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    return [2 /*return*/];
-                });
-            });
-        };
-        Chat.prototype.logIn = function (text) {
-            return __awaiter(this, void 0, void 0, function () {
-                var out;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0:
-                            this.loggedIn = text == this.password;
-                            if (this.loggedIn) {
-                                this.promptIndicatorText = 'unknown-user->global:';
-                                $('#prompt-indicator').text(this.promptIndicatorText);
-                            }
-                            out = this.loggedIn ? 'login successful! currently online users: 0 \ntype \'quit\' to exit the chat'
-                                : 'wrong password. type \'quit\' to exit the chat';
-                            return [4 /*yield*/, this.delegate.printText(out)];
+                        case 0: return [4 /*yield*/, this.delegate.printText('   Huch! Was ist denn hier los?')];
                         case 1:
                             _a.sent();
+                            return [4 /*yield*/, cmd.wait(1000)];
+                        case 2:
+                            _a.sent();
+                            return [4 /*yield*/, this.delegate.printText('   Kaum zu glauben, dass mich wirklich mal jemand zum schreiben benutzt!')];
+                        case 3:
+                            _a.sent();
+                            return [4 /*yield*/, cmd.wait(4000)];
+                        case 4:
+                            _a.sent();
+                            return [4 /*yield*/, this.delegate.printText('   Aber halt, so war das alles nicht geplant. Also nochmal von vorne...\n')];
+                        case 5:
+                            _a.sent();
+                            return [4 /*yield*/, cmd.wait(7000)];
+                        case 6:
+                            _a.sent();
+                            return [4 /*yield*/, this.delegate.printText('   Sei gegrüßt, mir unbekannte fremde Person!')];
+                        case 7:
+                            _a.sent();
+                            return [4 /*yield*/, cmd.wait(4000)];
+                        case 8:
+                            _a.sent();
+                            return [4 /*yield*/, this.delegate.printText('   Ich exitiere nur zu einem einzigen Zwecke und bin auch nur für eine einzige Person bestimmt.')];
+                        case 9:
+                            _a.sent();
+                            return [4 /*yield*/, cmd.wait(4000)];
+                        case 10:
+                            _a.sent();
+                            return [4 /*yield*/, this.delegate.printText('   Nur wenn Zweck und Person in ein und dem selben Moment hier und jetzt existieren, dann werde ich mich offenbaren!')];
+                        case 11:
+                            _a.sent();
+                            return [4 /*yield*/, cmd.wait(5000)];
+                        case 12:
+                            _a.sent();
+                            return [4 /*yield*/, this.delegate.printText('   Um zu beweisen, dass diese Voraussetzung erfüllt sind musst Du nun drei merkwürdige Fragen, äh ich meine natürlich, drei ruhmhafte Prüfungen bestehen.')];
+                        case 13:
+                            _a.sent();
+                            return [4 /*yield*/, cmd.wait(5000)];
+                        case 14:
+                            _a.sent();
+                            return [4 /*yield*/, this.delegate.printText('   So nenne man mir nun, als erste Prüfung, das Passwort.')];
+                        case 15:
+                            _a.sent();
+                            this.state = 'password';
                             return [2 /*return*/];
                     }
                 });
             });
         };
-        Chat.prototype.enterPrivateChat = function (username) {
+        Chat.prototype.password = function (text) {
             return __awaiter(this, void 0, void 0, function () {
-                var _a;
-                return __generator(this, function (_b) {
-                    switch (_b.label) {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
                         case 0:
-                            _a = username;
-                            switch (_a) {
-                                case '': return [3 /*break*/, 1];
-                                case 'lucy': return [3 /*break*/, 3];
-                            }
-                            return [3 /*break*/, 16];
-                        case 1: return [4 /*yield*/, this.delegate.printText('syntax error: name of user to connect to required. -> \'enterPrivateChat peter\'')];
+                            if (!(text == '131096')) return [3 /*break*/, 6];
+                            return [4 /*yield*/, this.delegate.printText("Wahrhaftig wunderbahr! Das ist das einzig richtige Passwort.")];
+                        case 1:
+                            _a.sent();
+                            return [4 /*yield*/, cmd.wait(1000)];
                         case 2:
-                            _b.sent();
-                            return [3 /*break*/, 20];
+                            _a.sent();
+                            return [4 /*yield*/, this.delegate.printText('Für die nächste Prüfung bedarf es Verstand und Beistand. Am besten wird diese Prüfung in Gruppenarbeit, äh ich meine natürlich zusammen mit Deinen ruhmhaften Gefährten absolviert.')];
                         case 3:
-                            this.promptIndicatorText = 'unknown-user->lucy:';
-                            return [4 /*yield*/, this.delegate.printText('try connecting to lucy')];
+                            _a.sent();
+                            return [4 /*yield*/, cmd.wait(4000)];
                         case 4:
-                            _b.sent();
-                            return [4 /*yield*/, this.delegate.printText(' . . . ', 500, false)];
+                            _a.sent();
+                            return [4 /*yield*/, this.delegate.printText("Wahrhaftig wunderbahr! Das ist das einzig richtige Passwort.")];
                         case 5:
-                            _b.sent();
-                            return [4 /*yield*/, this.delegate.printText('connection succesful!', this.delegate.defaultDelay, false)];
+                            _a.sent();
+                            this.state = 'riddle';
+                            return [3 /*break*/, 13];
                         case 6:
-                            _b.sent();
-                            this.delegate.enableInput();
-                            return [4 /*yield*/, cmd.wait(7000)];
+                            if (!(this.tryCount == 0)) return [3 /*break*/, 8];
+                            return [4 /*yield*/, this.delegate.printText("Oh welch frevel! Das ist nicht das richtige Passwort! Ich gew\u00E4hre dir einen weiteren Versuch.")];
                         case 7:
-                            _b.sent();
-                            return [4 /*yield*/, this.delegate.printText('lucy: Hello? Anybody out there?')];
+                            _a.sent();
+                            return [3 /*break*/, 12];
                         case 8:
-                            _b.sent();
-                            return [4 /*yield*/, cmd.wait(7000)];
+                            if (!(this.tryCount == 1)) return [3 /*break*/, 10];
+                            return [4 /*yield*/, this.delegate.printText("Oh welch erneuter frevel! Das ist nicht das richtige Passwort! So probiere man erneut!")];
                         case 9:
-                            _b.sent();
-                            return [4 /*yield*/, this.delegate.printText('lucy: plz answer! I need your help!')];
-                        case 10:
-                            _b.sent();
-                            return [4 /*yield*/, cmd.wait(3500)];
+                            _a.sent();
+                            return [3 /*break*/, 12];
+                        case 10: return [4 /*yield*/, this.delegate.printText("Oh welch erneuter gro\u00DFer frevel! Das ist auch falsch! Ich sage nur so viel: Nicht lettern, sondern ziffern.")];
                         case 11:
-                            _b.sent();
-                            return [4 /*yield*/, this.delegate.glitch.totalMeltdown(3)];
+                            _a.sent();
+                            _a.label = 12;
                         case 12:
-                            _b.sent();
-                            this.delegate.disableInput();
-                            this.delegate.displayText = '';
-                            $('#display').text('');
-                            return [4 /*yield*/, cmd.wait(2000)];
-                        case 13:
-                            _b.sent();
-                            return [4 /*yield*/, this.delegate.printText('TO BE CONTINUED', 100)];
-                        case 14:
-                            _b.sent();
-                            return [4 /*yield*/, this.delegate.printText(' . . .', 1000, false)];
-                        case 15:
-                            _b.sent();
-                            return [3 /*break*/, 20];
-                        case 16: return [4 /*yield*/, this.delegate.printText('try connecting to ' + username)];
-                        case 17:
-                            _b.sent();
-                            return [4 /*yield*/, this.delegate.printText(' . . . ', 30, false)];
-                        case 18:
-                            _b.sent();
-                            return [4 /*yield*/, this.delegate.printText('user ' + username + ' not availabe.', this.delegate.defaultDelay, false)];
-                        case 19:
-                            _b.sent();
-                            _b.label = 20;
-                        case 20: return [2 /*return*/];
+                            this.tryCount += 1;
+                            _a.label = 13;
+                        case 13: return [2 /*return*/];
                     }
                 });
             });

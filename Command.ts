@@ -17,11 +17,11 @@ namespace cmd{
         }
 
         async help():Promise<void>{
-            var out = '================================\navailabe commands: \n';
+            var out = '================================\nschreibe dies und ich verstehe: \n';
             for (var command of this.commands){
                 out += command + '\n';
             }
-            await this.delegate.printText(out.slice(0,-1) + '\nuse arrows \'UP\' \'DOWN\' \'RIGHT\' for history and autocomplete\n================================');
+            await this.delegate.printText(out.slice(0,-1) +'================================');
         }
 
         getAutofillList(input:string):string[]{
@@ -33,15 +33,13 @@ namespace cmd{
     
         constructor(delegate: CommandController) {
             super(delegate);
-            this.promptIndicatorText = 'unknown-user:~$';
+            this.promptIndicatorText = 'Schreibe hier:';
             this.commands = [
-                'help',
-                'print', 
-                'style',
-                'chat',
-                'love',
-                'listfiles',
-                'open'
+                'hilfe', 
+                'grußkarte',
+                'liebe',
+                'texte',
+                'vorlesen'
             ];
         }
 
@@ -66,15 +64,12 @@ namespace cmd{
                 args = '';
             }
             switch (command) {
-                case 'help': await this.help(); break;
-                case 'print': await this.println(args); break;
-                case 'style': await this.style(args); break;
-                case 'love': await this.love(); break;
-                case 'chat': await this.chat(); break;
-                case 'listfiles': await this.listfiles(); break;
-                case 'open': await this.open(args); break;
-                case 'meltdown': await this.meltdown(args); break;
-                default: await this.delegate.printText('undefined command: ' + text + '\ntype \'help\' to get a list of all commands');
+                case 'hilfe': await this.help(); break;
+                case 'liebe': await this.love(); break;
+                case 'grußkarte': await this.chat(); break;
+                case 'texte': await this.listfiles(); break;
+                case 'vorlesen': await this.open(args); break;
+                default: await this.delegate.printText(`Du schreibts "${text}" und doch verstehe ich dich nicht.'\nSchreibe 'hilfe' und wir werden beide verstehen.`);
             }
         }
         
@@ -124,19 +119,9 @@ namespace cmd{
         async love():Promise<void>{
             await this.delegate.printText(',d88b.d88b,\n88888888888\n`Y8888888Y\'\n  `Y888Y\'\n    `Y\'');
         }
-
-        async meltdown(args:string):Promise<void>{
-            if (!isNumber(args)){
-                await this.delegate.printText('syntax error: meltdown command requires a time in seconds value. -> \'meltdown 10\'');
-            } else {
-                var duration:number = Number(args);
-                await this.delegate.glitch.totalMeltdown(duration);
-            }
-            
-        }
         
         async chat():Promise<void>{
-            var chat:Chat = new Chat(this.delegate, this)
+            var chat:Chat = new Chat(this.delegate)
             this.delegate.switchActiveCommandTo(chat);
             await chat.startUp();
         }
@@ -144,12 +129,11 @@ namespace cmd{
     
     export class Chat extends Command{
     
-        password:string = 'sunflower';
-        loggedIn:boolean = false;
+        state:string = 'firstPrompt';
+        tryCount:number = 0;
     
-        constructor(delegate: CommandController, previous: Command) {
+        constructor(delegate: CommandController) {
             super(delegate);
-            this.previousActive = previous;
             this.commands = [
                 'help',
                 'quit',
@@ -162,78 +146,55 @@ namespace cmd{
         }
     
         async evalInput(text:string){
-            var command = text.substr(0,text.indexOf(' '));
-            var args = text.substr(text.indexOf(' ')+1);
-            if (command == ''){
-                command = args;
-                args = '';
-            }
-            switch (command){
-                case 'help': this.help(); break;
-                case 'quit': this.quit(); break;
-                case 'enterPrivateChat': 
-                    if (this.loggedIn){ this.enterPrivateChat(args)} else {this.logIn(text)}
-                    break;
-                default:
-                    if (this.loggedIn){
-                        this.send(text); break;
-                    } else {
-                        this.logIn(text); break;
-                    }
+            switch (this.state){
+                case 'firstPrompt': this.welcome(); break;
+                case 'password': this.password(text); break;
             }
         }
     
-        quit(){
-            if (this.previousActive != null){
-                this.delegate.switchActiveCommandTo(this.previousActive);
-            }
-        }
     
-        async send(text:string):Promise<void>{
-            //await this.delegate.printText('unknown-user: ' + text);
-        }
-    
-        async logIn(text:string):Promise<void>{
-            this.loggedIn = text == this.password;
-            if (this.loggedIn) {
-                this.promptIndicatorText = 'unknown-user->global:';
-                $('#prompt-indicator').text(this.promptIndicatorText);
-            }
-            var out:string = this.loggedIn ? 'login successful! currently online users: 0 \ntype \'quit\' to exit the chat' 
-                                : 'wrong password. type \'quit\' to exit the chat';
-            await this.delegate.printText(out);
+        async welcome():Promise<void>{
+            await this.delegate.printText('   Huch! Was ist denn hier los?');
+            await wait(1000);
+            await this.delegate.printText('   Kaum zu glauben, dass mich wirklich mal jemand zum schreiben benutzt!');
+            await wait(2000);
+            await this.delegate.printText('   Aber halt, so war das alles nicht geplant. Also nochmal von vorne...\n');
+            await wait(7000);
+            await this.delegate.printText('   Sei gegrüßt, mir unbekannte fremde Person!');
+            await wait(4000);
+            await this.delegate.printText('   Ich exitiere nur zu einem einzigen Zwecke und bin auch nur für eine einzige Person bestimmt.');
+            await wait(4000);
+            await this.delegate.printText('   Nur wenn Zweck und Person in ein und dem selben Moment hier und jetzt existieren, dann werde ich mich offenbaren!');
+            await wait(5000);
+            await this.delegate.printText('   Um zu beweisen, dass diese Voraussetzung erfüllt sind musst Du nun drei merkwürdige Fragen, äh ich meine natürlich, drei ruhmhafte Prüfungen bestehen.');
+            await wait(5000);
+            await this.delegate.printText('   So nenne man mir nun, als erste Prüfung, das Passwort:');
+            this.state = 'password'
         }
 
-        async enterPrivateChat(username:string):Promise<void>{
-            switch (username){
-                case '':
-                    await this.delegate.printText('syntax error: name of user to connect to required. -> \'enterPrivateChat peter\'');
-                    break;
-                case 'lucy':
-                    this.promptIndicatorText = 'unknown-user->lucy:';
-                    await this.delegate.printText('try connecting to lucy');
-                    await this.delegate.printText(' . . . ', 500, false);
-                    await this.delegate.printText('connection succesful!', this.delegate.defaultDelay, false);
-                    this.delegate.enableInput()
-                    await wait(7000);
-                    await this.delegate.printText('lucy: Hello? Anybody out there?');
-                    await wait(7000);
-                    await this.delegate.printText('lucy: plz answer! I need your help!');
-                    await wait(3500);
-                    await this.delegate.glitch.totalMeltdown(3);
-                    this.delegate.disableInput();
-                    this.delegate.displayText = '';
-                    $('#display').text('');
-                    await wait(2000);
-                    await this.delegate.printText('TO BE CONTINUED', 100);
-                    await this.delegate.printText(' . . .', 1000, false);
-                    break;
-                default:
-                    await this.delegate.printText('try connecting to '+username);
-                    await this.delegate.printText(' . . . ', 30, false);
-                    await this.delegate.printText('user ' + username + ' not availabe.', this.delegate.defaultDelay, false);
+        async password(text:string):Promise<void>{
+            if (text == '131096') {
+                await this.delegate.printText(`Wahrhaftig wunderbahr! Das ist das einzig richtige Passwort.`);
+                await wait(1000);
+                await this.delegate.printText('Für die nächste Prüfung bedarf es Verstand und Beistand. Am besten wird diese Prüfung in Gruppenarbeit, äh ich meine natürlich zusammen mit Deinen ruhmhaften Gefährten absolviert.');
+                await wait(4000);
+                await this.delegate.printText(`Wahrhaftig wunderbahr! Das ist das einzig richtige Passwort.`);
+
+                this.state = 'riddle';
+            } else {
+                if (this.tryCount == 0) {
+                    await this.delegate.printText(`Oh welch frevel! Das ist nicht das richtige Passwort! Ich gewähre dir einen weiteren Versuch.`);
+                } else if (this.tryCount == 1) {
+                    await this.delegate.printText(`Oh welch erneuter frevel! Das ist nicht das richtige Passwort! So probiere man erneut!`);
+                } else {
+                    await this.delegate.printText(`Oh welch erneuter großer frevel! Das ist auch falsch! Ich sage nur so viel: Nicht lettern, sondern ziffern.`);
+                }
+                
+                this.tryCount += 1;
             }
         }
+
+
     }
 }
 
