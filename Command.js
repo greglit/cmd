@@ -304,6 +304,9 @@ var cmd;
                         case 'dance':
                             this.dance(text);
                             break;
+                        case 'pia':
+                            this.pia(text);
+                            break;
                     }
                     return [2 /*return*/];
                 });
@@ -379,19 +382,19 @@ var cmd;
                             return [4 /*yield*/, this.delegate.printText('   Für die nächste Prüfung bedarf es Verstand und Beistand. \n   Am besten wird diese Prüfung in Gruppenarbeit, \n   äh ich meine natürlich zusammen mit Deinen \n   ruhmhaften Gefährten absolviert.')];
                         case 3:
                             _a.sent();
-                            return [4 /*yield*/, cmd.wait(4000)];
+                            return [4 /*yield*/, cmd.wait(6000)];
                         case 4:
                             _a.sent();
                             return [4 /*yield*/, this.delegate.printText("   So folget nun ein R\u00E4tsel:\n")];
                         case 5:
                             _a.sent();
-                            return [4 /*yield*/, cmd.wait(1000)];
+                            return [4 /*yield*/, cmd.wait(2000)];
                         case 6:
                             _a.sent();
                             return [4 /*yield*/, this.delegate.printText("   \u201EAlle Menschen haben mich, unm\u00F6glich der Verzicht.\nDoch mancher Mensch verachtet mich und w\u00FCnscht, es g\u00E4b mich nicht.\n\n                Beachte mich, betrachte mich, bis dein Verstand erweicht. \nDabei kannst du mir doch nichts tun, weil mich kein Schlag erreicht.\n\n                Kinder lachen \u00FCber mich, und Alte m\u00FCssen weinen. \nH\u00FCbschen M\u00E4dchen muss ich wohl ganz allerliebst erscheinen.\n\n                Wenn du schluchzt, so weine ich - g\u00E4hnst du, will ich schlafen.\nL\u00E4chle, und ich strahle, als erkl\u00E4ngen tausend Harfen.\u201C")];
                         case 7:
                             _a.sent();
-                            return [4 /*yield*/, cmd.wait(1000)];
+                            return [4 /*yield*/, cmd.wait(8000)];
                         case 8:
                             _a.sent();
                             return [4 /*yield*/, this.delegate.printText("\n   Wer beschreibet sich selbst in diesem Zitat?")];
@@ -478,7 +481,6 @@ var cmd;
                     switch (_a.label) {
                         case 0:
                             if (!(text == 'boogie' || text == 'Boogie' || text == 'Zahnputzboogie' || text == 'zahnputzboogie')) return [3 /*break*/, 10];
-                            this.delegate.disableInput();
                             return [4 /*yield*/, this.delegate.printText("   Wahrhaftig, wunderbahr und wundersch\u00F6n ist dieser Zahnputzboogie!")];
                         case 1:
                             _a.sent();
@@ -497,15 +499,16 @@ var cmd;
                             return [4 /*yield*/, cmd.wait(2000)];
                         case 6:
                             _a.sent();
-                            return [4 /*yield*/, this.delegate.printText("   Mein erschaffer m\u00F6chte, dass du das liest. Er nennt es \"Geburtstagskarte\". \n   Was auch immer das sein soll...")];
+                            return [4 /*yield*/, this.delegate.printText("   Mein erschaffer m\u00F6chte, dass ich dir etwas zeige. Er nennt es \"Geburtstagskarte\". \n   Was auch immer das sein soll...")];
                         case 7:
                             _a.sent();
-                            return [4 /*yield*/, cmd.wait(6000)];
+                            return [4 /*yield*/, cmd.wait(4000)];
                         case 8:
                             _a.sent();
-                            return [4 /*yield*/, this.delegate.printText("\n   Meine liebe Pia, \n   Ich w\u00FCnsche dir alles, alles gute zu deinem 25. Geburtstag, mein Schatz. \n   Auf einen / mehrer wundersch\u00F6ne Tage mit unseren Freunden, \n   und einen wundersch\u00F6nen Abend zu zweit! \n   Lass es krachen! \n   Dein liebster Gregor")];
+                            return [4 /*yield*/, this.delegate.printText("Schreibe deinen Namen und lies selber!")];
                         case 9:
                             _a.sent();
+                            this.state = 'pia';
                             return [3 /*break*/, 17];
                         case 10:
                             if (!(this.tryCount == 0)) return [3 /*break*/, 12];
@@ -527,6 +530,21 @@ var cmd;
                             this.tryCount += 1;
                             _a.label = 17;
                         case 17: return [2 /*return*/];
+                    }
+                });
+            });
+        };
+        Chat.prototype.pia = function (text) {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            if (!(text == 'pia' || text == 'Pia')) return [3 /*break*/, 2];
+                            return [4 /*yield*/, this.delegate.printText("\n   Meine liebe Pia, \n   Ich w\u00FCnsche dir alles, alles gute zu deinem 25. Geburtstag, mein Schatz. \n   Auf einen / mehrer wundersch\u00F6ne Tage mit unseren Freunden, \n   und einen wundersch\u00F6nen Abend zu zweit! \n   Lass es krachen! \n   Ich liebe Dich \n   Dein liebster Gregor")];
+                        case 1:
+                            _a.sent();
+                            _a.label = 2;
+                        case 2: return [2 /*return*/];
                     }
                 });
             });

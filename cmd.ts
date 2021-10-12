@@ -61,7 +61,7 @@ namespace cmd{
 		autofillInput:string = '';
 		lastAutofill:string = '';
 		activeCmd:Command;
-		defaultDelay:number = 10;
+		defaultDelay:number = 20;
 
 		files: {[name:string] : File} = {
 			'log1' : {type:'txt', content:'|01| Tue May 22nd 2087\n|02|\n|03| today nothing happened'},

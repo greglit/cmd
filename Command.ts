@@ -143,6 +143,7 @@ namespace cmd{
                 case 'password': this.password(text); break;
                 case 'riddle': this.riddle(text); break;
                 case 'dance': this.dance(text); break;
+                case 'pia': this.pia(text); break;
             }
         }
     
@@ -171,14 +172,14 @@ namespace cmd{
                 await this.delegate.printText(`   Wahrhaftig! Das ist das einzig richtige Passwort.`);
                 await wait(1000);
                 await this.delegate.printText('   Für die nächste Prüfung bedarf es Verstand und Beistand. \n   Am besten wird diese Prüfung in Gruppenarbeit, \n   äh ich meine natürlich zusammen mit Deinen \n   ruhmhaften Gefährten absolviert.');
-                await wait(4000);
+                await wait(6000);
                 await this.delegate.printText(`   So folget nun ein Rätsel:\n`);
-                await wait(1000);
+                await wait(2000);
                 await this.delegate.printText(`   „Alle Menschen haben mich, unmöglich der Verzicht.\nDoch mancher Mensch verachtet mich und wünscht, es gäb mich nicht.\n
                 Beachte mich, betrachte mich, bis dein Verstand erweicht. \nDabei kannst du mir doch nichts tun, weil mich kein Schlag erreicht.\n
                 Kinder lachen über mich, und Alte müssen weinen. \nHübschen Mädchen muss ich wohl ganz allerliebst erscheinen.\n
                 Wenn du schluchzt, so weine ich - gähnst du, will ich schlafen.\nLächle, und ich strahle, als erklängen tausend Harfen.“`);
-                await wait(1000);
+                await wait(8000);
                 await this.delegate.printText(`\n   Wer beschreibet sich selbst in diesem Zitat?`);
 
                 this.state = 'riddle';
@@ -219,16 +220,16 @@ namespace cmd{
 
         async dance(text:string):Promise<void>{
             if (text == 'boogie' || text == 'Boogie' || text == 'Zahnputzboogie' || text == 'zahnputzboogie') {
-                this.delegate.disableInput();
                 await this.delegate.printText(`   Wahrhaftig, wunderbahr und wunderschön ist dieser Zahnputzboogie!`);
                 await wait(1000);
                 await this.delegate.printText('   So ist es nun vollbracht, alle Prüfungen wurden bestanden. \n   Du hast nun bewiesen, dass du die einzig wahre Person und das der einzig wahre Zweck ist...')
                 await wait(2000);
                 await this.delegate.printText(`   Ach was mache ich mir vor, interessiert doch eh keinen was ich hier fasel.`);
                 await wait(2000);
-                await this.delegate.printText(`   Mein erschaffer möchte, dass du das liest. Er nennt es "Geburtstagskarte". \n   Was auch immer das sein soll...`);
-                await wait(6000);
-                await this.delegate.printText(`\n   Meine liebe Pia, \n   Ich wünsche dir alles, alles gute zu deinem 25. Geburtstag, mein Schatz. \n   Auf einen / mehrer wunderschöne Tage mit unseren Freunden, \n   und einen wunderschönen Abend zu zweit! \n   Lass es krachen! \n   Dein liebster Gregor`);
+                await this.delegate.printText(`   Mein erschaffer möchte, dass ich dir etwas zeige. Er nennt es "Geburtstagskarte". \n   Was auch immer das sein soll...`);
+                await wait(4000);
+                await this.delegate.printText(`   Schreibe deinen Namen und lies selbst!`);
+                this.state = 'pia';
             } else {
                 if (this.tryCount == 0) {
                     await this.delegate.printText(`   Oh welch frevel! "${text}" ist nicht richtig. \n   Ich gewähre dir einen weiteren Versuch.`);
@@ -240,6 +241,14 @@ namespace cmd{
                 this.tryCount += 1;
             }
         }
+
+        async pia(text:string):Promise<void>{
+            if (text == 'pia' || text == 'Pia') {
+                await this.delegate.printText(`\n   Meine liebe Pia, \n   Ich wünsche dir alles, alles gute zu deinem 25. Geburtstag, mein Schatz. \n   Auf einen / mehrer wunderschöne Tage mit unseren Freunden, \n   und einen wunderschönen Abend zu zweit! \n   Lass es krachen! \n   Ich liebe Dich \n   Dein liebster Gregor`);
+            }
+        }
+
+
 
 
     }
