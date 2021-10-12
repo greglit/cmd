@@ -1,4 +1,3 @@
-"use strict";
 /// <reference path="cmd.ts" />
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {

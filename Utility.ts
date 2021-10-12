@@ -8,7 +8,7 @@ namespace cmd {
 		return str;
 	}
 
-	export async function wait(milliseconds:number):Promise<void>{
+	export async function wait(milliseconds:number):Promise<{}>{
 		return new Promise(r => setTimeout(r, milliseconds));
 	}
 

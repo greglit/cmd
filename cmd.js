@@ -1,4 +1,3 @@
-"use strict";
 /// <reference path="Command.ts" />
 /// <reference path="Glitch.ts" />
 /// <reference path="Utility.ts" />
