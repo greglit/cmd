@@ -346,19 +346,19 @@ var cmd;
                             return [4 /*yield*/, cmd.wait(4000)];
                         case 10:
                             _a.sent();
-                            return [4 /*yield*/, this.delegate.printText('   Nur wenn Zweck und Person in ein und dem selben Moment \n   hier und jetzt existieren, \n   dann werde ich mich offenbaren!')];
+                            return [4 /*yield*/, this.delegate.printText('   Nur wenn Zweck und Person in ein und dem \n   selben Moment hier und jetzt existieren, \n   dann werde ich mich offenbaren!')];
                         case 11:
                             _a.sent();
                             return [4 /*yield*/, cmd.wait(5000)];
                         case 12:
                             _a.sent();
-                            return [4 /*yield*/, this.delegate.printText('   Um zu beweisen, dass diese Voraussetzungen erfüllt sind, \n   musst Du nun drei merkwürdige Fragen, \n   äh ich meine natürlich, drei ruhmhafte Prüfungen bestehen.')];
+                            return [4 /*yield*/, this.delegate.printText('   Um zu beweisen, dass diese Voraussetzungen erfüllt \n   sind, musst Du nun drei merkwürdige Fragen, \n   äh ich meine natürlich, \n   drei ruhmhafte Prüfungen bestehen.')];
                         case 13:
                             _a.sent();
                             return [4 /*yield*/, cmd.wait(5000)];
                         case 14:
                             _a.sent();
-                            return [4 /*yield*/, this.delegate.printText('   Als erste Prüfung, nenne man mir das Passwort:')];
+                            return [4 /*yield*/, this.delegate.printText('   Als erste Prüfung, \n   nenne man mir das Passwort:')];
                         case 15:
                             _a.sent();
                             this.state = 'password';
@@ -373,13 +373,13 @@ var cmd;
                     switch (_a.label) {
                         case 0:
                             if (!(text == '131096')) return [3 /*break*/, 10];
-                            return [4 /*yield*/, this.delegate.printText("   Wahrhaftig! Das ist das einzig richtige Passwort.")];
+                            return [4 /*yield*/, this.delegate.printText("   Wahrhaftig! Das ist das einzig \n   richtige Passwort.")];
                         case 1:
                             _a.sent();
                             return [4 /*yield*/, cmd.wait(1000)];
                         case 2:
                             _a.sent();
-                            return [4 /*yield*/, this.delegate.printText('   Für die nächste Prüfung bedarf es Verstand und Beistand. \n   Am besten wird diese Prüfung in Gruppenarbeit, \n   äh ich meine natürlich zusammen mit Deinen \n   ruhmhaften Gefährten absolviert.')];
+                            return [4 /*yield*/, this.delegate.printText('   Für die nächste Prüfung bedarf es \n   Verstand und Beistand. \n   Am besten wird diese Prüfung \n   in Gruppenarbeit, \n   äh ich meine natürlich zusammen mit Deinen \n   ruhmhaften Gefährten absolviert.')];
                         case 3:
                             _a.sent();
                             return [4 /*yield*/, cmd.wait(6000)];
@@ -391,13 +391,13 @@ var cmd;
                             return [4 /*yield*/, cmd.wait(2000)];
                         case 6:
                             _a.sent();
-                            return [4 /*yield*/, this.delegate.printText("   \u201EAlle Menschen haben mich, unm\u00F6glich der Verzicht.\nDoch mancher Mensch verachtet mich und w\u00FCnscht, es g\u00E4b mich nicht.\n\n                Beachte mich, betrachte mich, bis dein Verstand erweicht. \nDabei kannst du mir doch nichts tun, weil mich kein Schlag erreicht.\n\n                Kinder lachen \u00FCber mich, und Alte m\u00FCssen weinen. \nH\u00FCbschen M\u00E4dchen muss ich wohl ganz allerliebst erscheinen.\n\n                Wenn du schluchzt, so weine ich - g\u00E4hnst du, will ich schlafen.\nL\u00E4chle, und ich strahle, als erkl\u00E4ngen tausend Harfen.\u201C")];
+                            return [4 /*yield*/, this.delegate.printText("   \u201EAlle Menschen haben mich, \n   unm\u00F6glich der Verzicht.\nDoch mancher Mensch verachtet mich \n   und w\u00FCnscht, es g\u00E4b mich nicht.\n\n                Beachte mich, betrachte mich, \n   bis dein Verstand erweicht. \nDabei kannst du mir doch nichts tun, \n   weil mich kein Schlag erreicht.\n\n                Kinder lachen \u00FCber mich, \n   und Alte m\u00FCssen weinen. \nH\u00FCbschen M\u00E4dchen muss ich wohl \n   ganz allerliebst erscheinen.\n\n                Wenn du schluchzt, so weine ich - \n   g\u00E4hnst du, will ich schlafen.\nL\u00E4chle, und ich strahle, \n   als erkl\u00E4ngen tausend Harfen.\u201C")];
                         case 7:
                             _a.sent();
                             return [4 /*yield*/, cmd.wait(8000)];
                         case 8:
                             _a.sent();
-                            return [4 /*yield*/, this.delegate.printText("\n   Wer beschreibet sich selbst in diesem Zitat?")];
+                            return [4 /*yield*/, this.delegate.printText("\n   Wer beschreibet sich selbst \n   in diesem Zitat?")];
                         case 9:
                             _a.sent();
                             this.state = 'riddle';
@@ -405,17 +405,17 @@ var cmd;
                             return [3 /*break*/, 17];
                         case 10:
                             if (!(this.tryCount == 0)) return [3 /*break*/, 12];
-                            return [4 /*yield*/, this.delegate.printText("   Oh welch frevel! Das ist nicht das richtige Passwort! \n   Ich gew\u00E4hre dir einen weiteren Versuch.")];
+                            return [4 /*yield*/, this.delegate.printText("   Oh welch frevel! \n   Das ist nicht das richtige Passwort! \n   Ich gew\u00E4hre dir einen weiteren Versuch.")];
                         case 11:
                             _a.sent();
                             return [3 /*break*/, 16];
                         case 12:
                             if (!(this.tryCount == 1)) return [3 /*break*/, 14];
-                            return [4 /*yield*/, this.delegate.printText("   Oh welch erneuter frevel! Das ist nicht das richtige Passwort! \n   So probiere man erneut!")];
+                            return [4 /*yield*/, this.delegate.printText("   Oh welch erneuter frevel! \n   Das ist nicht das richtige Passwort! \n   So probiere man erneut!")];
                         case 13:
                             _a.sent();
                             return [3 /*break*/, 16];
-                        case 14: return [4 /*yield*/, this.delegate.printText("   Oh welch erneuter gro\u00DFer frevel! Das ist auch falsch! \n   Ich sage nur so viel: Nicht lettern, sondern ziffern.")];
+                        case 14: return [4 /*yield*/, this.delegate.printText("   Oh welch erneuter gro\u00DFer frevel! \n   Das ist auch falsch! \n   Ich sage nur so viel: \n   Nicht lettern, sondern ziffern.")];
                         case 15:
                             _a.sent();
                             _a.label = 16;
@@ -433,19 +433,19 @@ var cmd;
                     switch (_a.label) {
                         case 0:
                             if (!(text == 'Spiegelbild' || text == 'spiegelbild')) return [3 /*break*/, 6];
-                            return [4 /*yield*/, this.delegate.printText("   Wahrhaftig und wunderbahr! Das Spiegelbild hat hier gesprochen!")];
+                            return [4 /*yield*/, this.delegate.printText("   Wahrhaftig und wunderbahr! \n   Das Spiegelbild hat hier gesprochen!")];
                         case 1:
                             _a.sent();
                             return [4 /*yield*/, cmd.wait(1000)];
                         case 2:
                             _a.sent();
-                            return [4 /*yield*/, this.delegate.printText('   Für die letzte Prüfung bedarf es ein bisschen balla balla im Kopf, \n   äh ich meine natürlich eine frohlockende Fantasie!.')];
+                            return [4 /*yield*/, this.delegate.printText('   Für die letzte Prüfung bedarf es \n   ein bisschen balla balla im Kopf, \n   äh ich meine natürlich \n   eine frohlockende Fantasie!.')];
                         case 3:
                             _a.sent();
                             return [4 /*yield*/, cmd.wait(4000)];
                         case 4:
                             _a.sent();
-                            return [4 /*yield*/, this.delegate.printText("   Man nenne mir den Namen des Tanzes den man \n   beim Z\u00E4hneputzen pflegt zu vollf\u00FChren:")];
+                            return [4 /*yield*/, this.delegate.printText("   Man nenne mir den Namen \n   des Tanzes den man \n   beim Z\u00E4hneputzen pflegt \n   zu vollf\u00FChren:")];
                         case 5:
                             _a.sent();
                             this.state = 'dance';
@@ -453,17 +453,17 @@ var cmd;
                             return [3 /*break*/, 13];
                         case 6:
                             if (!(this.tryCount == 0)) return [3 /*break*/, 8];
-                            return [4 /*yield*/, this.delegate.printText("   Oh welch frevel! \"" + text + "\" ist nicht richtig. \n   Ich gew\u00E4hre dir einen weiteren Versuch.")];
+                            return [4 /*yield*/, this.delegate.printText("   Oh welch frevel! \n   \"" + text + "\" ist nicht richtig. \n   Ich gew\u00E4hre dir einen weiteren Versuch.")];
                         case 7:
                             _a.sent();
                             return [3 /*break*/, 12];
                         case 8:
                             if (!(this.tryCount == 1)) return [3 /*break*/, 10];
-                            return [4 /*yield*/, this.delegate.printText("   Oh welch erneuter frevel! \"" + text + "\" ist auch nicht richtig. \n   So probiere man erneut!")];
+                            return [4 /*yield*/, this.delegate.printText("   Oh welch erneuter frevel! \n   \"" + text + "\" ist auch nicht richtig. \n   So probiere man erneut!")];
                         case 9:
                             _a.sent();
                             return [3 /*break*/, 12];
-                        case 10: return [4 /*yield*/, this.delegate.printText("   Oh welch erneuter gro\u00DFer frevel! \"" + text + "\" ist auch falsch! \n   Hier f\u00E4llt mir beim besten willen kein guter Tipp ein.")];
+                        case 10: return [4 /*yield*/, this.delegate.printText("   Oh welch erneuter gro\u00DFer frevel! \n   \"" + text + "\" ist auch falsch! \n   Hier f\u00E4llt mir beim besten willen \n   kein guter Tipp ein.")];
                         case 11:
                             _a.sent();
                             _a.label = 12;
@@ -487,42 +487,42 @@ var cmd;
                             return [4 /*yield*/, cmd.wait(1000)];
                         case 2:
                             _a.sent();
-                            return [4 /*yield*/, this.delegate.printText('   So ist es nun vollbracht, alle Prüfungen wurden bestanden. \n   Du hast nun bewiesen, dass du die einzig wahre Person und das der einzig wahre Zweck ist...')];
+                            return [4 /*yield*/, this.delegate.printText('   So ist es nun vollbracht, \n   alle Prüfungen wurden bestanden. \n   Du hast nun bewiesen, dass du die einzig wahre Person \n   und das der einzig wahre Zweck ist...')];
                         case 3:
                             _a.sent();
                             return [4 /*yield*/, cmd.wait(2000)];
                         case 4:
                             _a.sent();
-                            return [4 /*yield*/, this.delegate.printText("   Ach was mache ich mir vor, interessiert doch eh keinen was ich hier fasel.")];
+                            return [4 /*yield*/, this.delegate.printText("   Ach was mache ich mir vor, \n   interessiert doch eh keinen \n   was ich hier fasel.")];
                         case 5:
                             _a.sent();
                             return [4 /*yield*/, cmd.wait(2000)];
                         case 6:
                             _a.sent();
-                            return [4 /*yield*/, this.delegate.printText("   Mein erschaffer m\u00F6chte, dass ich dir etwas zeige. Er nennt es \"Geburtstagskarte\". \n   Was auch immer das sein soll...")];
+                            return [4 /*yield*/, this.delegate.printText("   Mein erschaffer m\u00F6chte, \n   dass ich dir etwas zeige. \n   Er nennt es \"Geburtstagskarte\". \n   Was auch immer das sein soll...")];
                         case 7:
                             _a.sent();
                             return [4 /*yield*/, cmd.wait(4000)];
                         case 8:
                             _a.sent();
-                            return [4 /*yield*/, this.delegate.printText("Schreibe deinen Namen und lies selber!")];
+                            return [4 /*yield*/, this.delegate.printText("   Schreibe deinen Namen \n   und lies selbst!")];
                         case 9:
                             _a.sent();
                             this.state = 'pia';
                             return [3 /*break*/, 17];
                         case 10:
                             if (!(this.tryCount == 0)) return [3 /*break*/, 12];
-                            return [4 /*yield*/, this.delegate.printText("   Oh welch frevel! \"" + text + "\" ist nicht richtig. \n   Ich gew\u00E4hre dir einen weiteren Versuch.")];
+                            return [4 /*yield*/, this.delegate.printText("   Oh welch frevel! \n   \"" + text + "\" ist nicht richtig. \n   Ich gew\u00E4hre dir einen weiteren Versuch.")];
                         case 11:
                             _a.sent();
                             return [3 /*break*/, 16];
                         case 12:
                             if (!(this.tryCount == 1)) return [3 /*break*/, 14];
-                            return [4 /*yield*/, this.delegate.printText("   Oh welch erneuter frevel! \"" + text + "\" ist auch nicht richtig. \n   So probiere man erneut!")];
+                            return [4 /*yield*/, this.delegate.printText("   Oh welch erneuter frevel! \n   \"" + text + "\" ist auch nicht richtig. \n   So probiere man erneut!")];
                         case 13:
                             _a.sent();
                             return [3 /*break*/, 16];
-                        case 14: return [4 /*yield*/, this.delegate.printText("   Oh welch erneuter gro\u00DFer frevel! \"" + text + "\" ist auch falsch! \n   Mein erschaffer meinte du w\u00FCsstest das sicher!")];
+                        case 14: return [4 /*yield*/, this.delegate.printText("   Oh welch erneuter gro\u00DFer frevel! \n   \"" + text + "\" ist auch falsch! \n   Mein erschaffer meinte du w\u00FCsstest das sicher!")];
                         case 15:
                             _a.sent();
                             _a.label = 16;
@@ -540,7 +540,7 @@ var cmd;
                     switch (_a.label) {
                         case 0:
                             if (!(text == 'pia' || text == 'Pia')) return [3 /*break*/, 2];
-                            return [4 /*yield*/, this.delegate.printText("\n   Meine liebe Pia, \n   Ich w\u00FCnsche dir alles, alles gute zu deinem 25. Geburtstag, mein Schatz. \n   Auf einen / mehrer wundersch\u00F6ne Tage mit unseren Freunden, \n   und einen wundersch\u00F6nen Abend zu zweit! \n   Lass es krachen! \n   Ich liebe Dich \n   Dein liebster Gregor")];
+                            return [4 /*yield*/, this.delegate.printText("\n   Meine liebe Pia, \n   Ich w\u00FCnsche dir alles, alles gute \n   zu deinem 25. Geburtstag, mein Schatz. \n   Auf einen / mehrer wundersch\u00F6ne Tage \n   mit unseren Freunden, \n   und einen wundersch\u00F6nen \n   Abend zu zweit! \n   Lass es krachen! \n   Ich liebe Dich \n   Dein liebster Gregor")];
                         case 1:
                             _a.sent();
                             _a.label = 2;
